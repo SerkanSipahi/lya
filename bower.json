@@ -3,9 +3,6 @@
     "version": "1.0.0",
     "main": "liya.js",
     "homepage": "https://github.com/SerkanSipahi/liyajs",
-    "devDependencies": {
-        "domready": "~1.0.5"
-    },
     "license": "MIT",
     "keywords": [
         "liya",
@@ -15,7 +12,6 @@
         "framework"
     ],
     "ignore": [
-        "vendor",
         "liya.min.js",
         "node_modules",
         "bower_components",
