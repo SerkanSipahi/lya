@@ -1,5 +1,7 @@
 (function(){
 
+    'use strict';
+
     // > write tests
     window.bcUtils = {
         // > http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#5624139
@@ -14,15 +16,9 @@
         isTypeof : function(type, object){
             return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
         },
-        objectCollectionToCamelCaseByRegex : function(cssObject){
-            var tmpCssObject={}, tmpAttr;
-            for(var attr in cssObject) {
-                tmpCssObject[this.toCamelCaseByRegex(attr)] = cssObject[attr];
-            }
-            return tmpCssObject;
-        },
         toCamelCaseByRegex : function(attr, expression){
             // > !(!!window.chrome)) auslagern zur funktion
+            var capital;
             if((capital = /-([a-z])/g.exec(attr)) && !(!!window.chrome)){
                 attr = attr.replace(capital[0], capital[1].toUpperCase());
             }

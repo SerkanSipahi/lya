@@ -2,9 +2,11 @@ module.exports = function(config) {
 	config.set({
 		files : [
 			'liya.js',
+            'vendor/ready.js',
+            'tests/fixture.html',
 			'tests/test_liya.js'
 		],
-		basePath: 'tests',
+		basePath: './',
 		frameworks: ['jasmine'],
 		browser : ['Chrome', 'Firefox', 'Safari', 'Opera', 'IE', 'PhantomJS'],
 		exclude : [],
