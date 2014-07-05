@@ -16,13 +16,29 @@
         isTypeof : function(type, object){
             return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
         },
-        toCamelCaseByRegex : function(attr, expression){
-            // > !(!!window.chrome)) auslagern zur funktion
-            var capital;
-            if((capital = /-([a-z])/g.exec(attr)) && !(!!window.chrome)){
-                attr = attr.replace(capital[0], capital[1].toUpperCase());
+        toCamelCaseByRegex : function(expression, value){
+
+            if(!bcUtils.isTypeof('string', expression) || !bcUtils.isTypeof('string', value)){
+                throw {
+                    name: "Error",
+                    message: "one or both of the passed arguments are not a string"
+                }
             }
-            return attr;
+
+            var matches;
+            if((matches = this.matchAll(new RegExp(expression, 'g'), value))){
+                for(var i=0,length=matches.length;i<length;i++){
+                    value = value.replace(matches[i][0], matches[i][1].toUpperCase());
+                }
+            }
+            return value;
+        },
+        matchAll : function(pattern, data, slice_start, slice_end){
+            var matches = [], match;
+            while ((match = pattern.exec(data))) {
+                matches.push(match);
+            }
+            return matches;
         }
     };
 
@@ -106,6 +122,7 @@
             args     = arguments,
             res      = null,
             style    = null,
+            capital  = null,
             tmpObj   = {},
             writeCSS = function(self, cssObject){
                 for(var attr in cssObject){

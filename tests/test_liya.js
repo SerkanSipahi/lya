@@ -9,10 +9,13 @@ var $ = document.querySelectorAll.bind(document),
         $body.appendChild($container);
     };
 
-describe('A suite is just a function', function() {
+describe('Testing bcUtils', function() {
 
-    it('and so is a spec', function() {
-        expect(true).toBe(true);
+    it('toCamelCaseByRegex', function() {
+        var exp = '-([a-z])';
+        expect('color').toBe(bcUtils.toCamelCaseByRegex(exp, 'color'));
+        expect('backgroundColor').toBe(bcUtils.toCamelCaseByRegex(exp, 'background-color'));
+        expect('borderLeftWidth').toBe(bcUtils.toCamelCaseByRegex(exp, 'border-left-width'));
     });
 });
 
@@ -23,7 +26,7 @@ describe('A sute if we want to test dom', function(){
     });
 
     it('if we need from loaded dom', function() {
-        console.log($('#fixtureContainer').length);
+        //console.log($('#fixtureContainer').length);
         expect(true).toBe(true);
     });
 });
