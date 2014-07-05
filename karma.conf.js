@@ -4,7 +4,7 @@ module.exports = function(config) {
 			'liya.js',
 			'tests/test_liya.js'
 		],
-		basePath: '..',
+		basePath: 'tests',
 		frameworks: ['jasmine'],
 		browser : ['Chrome', 'Firefox', 'Safari', 'Opera', 'IE', 'PhantomJS'],
 		exclude : [],

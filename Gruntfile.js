@@ -10,8 +10,9 @@ module.exports = function(grunt) {
     ];
 
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            files: watch_files,
+            files: watch_filfes,
             options: {
                 expr:true,
                 newcap: false,
@@ -24,17 +25,15 @@ module.exports = function(grunt) {
                 browser: true
             }
         },
-        concat: {
-            classy: {
-                files: {
-                    'dest': 'src'
-                }
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
             }
         },
         watch: {
             js : {
                 files: watch_files,
-                tasks: ['jshint', 'karma', 'concat'],
+                tasks: ['jshint', 'karma'],
                 options : {
                     livereload : false
                 }
@@ -45,9 +44,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-concat');
 
-    grunt.registerTask('default', ['jshint', 'karma', 'concat']);
+    grunt.registerTask('default', ['jshint', 'watch']);
+    grunt.registerTask('tests', ['jshint', 'karma', 'watch']);
 
 };
