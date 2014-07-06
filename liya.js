@@ -128,7 +128,7 @@
             var isTypeof = bcUtils.isTypeof,
                 tmpExpression = '';
 
-            if(bcUtils.isTypeof('undefined', args) && bcUtils.isTypeof('undefined', expression)){
+            if(isTypeof('undefined', args) && isTypeof('undefined', expression)){
                 throw {
                     name: 'Error',
                     message: 'First and Second argument must be passed'
@@ -157,11 +157,28 @@
         },
         do : function($this, operation, arg1, arg2, arg3){
 
-            var o = this, result=$this;
+            var o = this,
+                result = $this,
+                computedStyle = window.getComputedStyle,
+                toCamelCaseByRegex = bcUtils.toCamelCaseByRegex.bind(bcUtils),
+                rgbToHex = bcUtils.rgbToHex,
+                styleAttr = arg1, expression = '-([a-z])';
+
+            styleAttr = toCamelCaseByRegex(expression, arg1);
 
             switch (operation) {
                 case o.rs:
-                    //document.write("Oranges are $0.59 a pound.<br>");
+                    // > inlinestyle werte können nur per camelCase definition aberufen werden
+                    if($this.style[styleAttr]!==''){
+                        result = $this.style[styleAttr];
+                    } else {
+                    // > computedStyle werte müssen nicht mit camelCase behandelt werden
+                        result = computedStyle($this).getPropertyValue(arg1);
+                    }
+                    // > handle colors
+                    if(/rgb\((\d+), (\d+), (\d+)\)/ig.test(result)){
+                        result = rgbToHex(result);
+                    }
                     break;
                 case o['rs+c']:
                     //document.write("Apples are $0.32 a pound.<br>");
@@ -214,7 +231,7 @@
             };
 
         if(css.is(args, css.rs)){
-            result = css.do($this, css.rs, args[0]);
+            res = css.do($this, css.rs, args[0]);
         } else if(css.is(args, css['rs+c'])){
             result = css.do($this, css['rs+c'], args[0], args[1]);
         } else if(css.is(args, css.ws)){
@@ -239,18 +256,6 @@
             args[1].call(self, args[0]);
         }
 
-        // > read operations
-        if(bcUtils.isTypeof('string', args[0]) && !args[1] && !args[2]){
-            style = self.style[stylesheetRuleToCamelCase(args[0])];
-            if(style!==''){
-                res = self.style[args[0]];
-            }
-            else if(style===''){
-                res = window.getComputedStyle(self).getPropertyValue(
-                    stylesheetRuleToCamelCase(args[0])
-                );
-            }
-        }
         return res;
     };
 
