@@ -23,13 +23,6 @@
 
             var matches;
 
-            if(!this.isTypeof('string', expression) || !this.isTypeof('string', value)){
-                throw {
-                    name: 'Error',
-                    message: 'one or both of the passed arguments are not a string'
-                };
-            }
-
             if((matches = this.matchAll(new RegExp(expression, 'g'), value))){
                 for(var i=0,length=matches.length;i<length;i++){
                     value = value.replace(matches[i][0], matches[i][1].toUpperCase());
@@ -110,11 +103,11 @@
          * r=read, w=write c=callback, o=object,
          * s=string, +=and
          **/
-        'rs' : 'read',
+        'rs'   : 'read',
         'rs+c' : 'read_with_callback',
-        'ws' : 'write_as_string',
+        'ws'   : 'write_as_string',
         'ws+c' : 'write_as_string_with_callback',
-        'wo' : 'write_as_object',
+        'wo'   : 'write_as_object',
         'wo+c' : 'write_as_object_with_callback',
 
         writeCssObject : function(cssObject){
@@ -128,17 +121,10 @@
             var isTypeof = bcUtils.isTypeof,
                 tmpExpression = '';
 
-            if(isTypeof('undefined', args) && isTypeof('undefined', expression)){
-                throw {
-                    name: 'Error',
-                    message: 'First and Second argument must be passed'
-                };
-            }
-
             // > read operation
-            if(isTypeof('string', args[0]) && !args[1] && !args[2]){
+            if(args.length < 2){
                 tmpExpression = this.rs;
-            } else if(isTypeof('string', args[0]) && isTypeof('function', args[1]) && !args[2]){
+            } else if(isTypeof('string', args[0]) && isTypeof('function', args[1])){
                 tmpExpression = this['rs+c'];
             }
 
@@ -147,9 +133,9 @@
                 tmpExpression = this.ws;
             } else if(isTypeof('string', args[0]) && isTypeof('string', args[1]) && isTypeof('function', args[2])){
                 tmpExpression = this['ws+c'];
-            } else if(isTypeof('object', args[0]) && !args[1] && !args[2]){
+            } else if(isTypeof('object', args[0]) && !args[1]){
                 tmpExpression = this.wo;
-            } else if(isTypeof('object', args[0]) && isTypeof('function', args[1]) && !args[2]){
+            } else if(isTypeof('object', args[0]) && isTypeof('function', args[1]) ){
                 tmpExpression = this['wo+c'];
             }
 
@@ -162,23 +148,14 @@
                 computedStyle = window.getComputedStyle,
                 toCamelCaseByRegex = bcUtils.toCamelCaseByRegex.bind(bcUtils),
                 rgbToHex = bcUtils.rgbToHex,
-                styleAttr = arg1, expression = '-([a-z])';
+                styleAttr, expression = '-([a-z])';
 
             styleAttr = toCamelCaseByRegex(expression, arg1);
 
             switch (operation) {
                 case o.rs:
-                    // > inlinestyle werte können nur per camelCase definition aberufen werden
-                    if($this.style[styleAttr]!==''){
-                        result = $this.style[styleAttr];
-                    } else {
-                    // > computedStyle werte müssen nicht mit camelCase behandelt werden
-                        result = computedStyle($this).getPropertyValue(arg1);
-                    }
-                    // > handle colors
-                    if(/rgb\((\d+), (\d+), (\d+)\)/ig.test(result)){
-                        result = rgbToHex(result);
-                    }
+                    result = $this.style[styleAttr] || computedStyle($this).getPropertyValue(arg1);
+                    result = /rgb\((\d+), (\d+), (\d+)\)/ig.test(result) ? rgbToHex(result) : result;
                     break;
                 case o['rs+c']:
                     //document.write("Apples are $0.32 a pound.<br>");
@@ -203,57 +180,22 @@
     HTMLElement.prototype.css = function(){
 
         var css      = liya.cssHelperMethods,
-            self     = this,
             $this    = this,
             args     = arguments,
-            res      = null,
-            result   = null,
-            style    = null,
-            capital  = null,
-            tmpObj   = {},
-            writeCSS = function(self, cssObject){
-                for(var attr in cssObject){
-                    self.style[attr] = cssObject[attr];
-                }
-            },
-            stylesheetRuleToCamelCase = function(attr){
-                if((capital = /-([a-z])/g.exec(attr)) && !(!!window.chrome)){
-                    attr = attr.replace(capital[0], capital[1].toUpperCase());
-                }
-                return attr;
-            },
-            objectCollectionToCamelCase = function(cssObject){
-                var tmpCssObject={}, tmpAttr;
-                for(var attr in cssObject) {
-                    tmpCssObject[stylesheetRuleToCamelCase(attr)] = cssObject[attr];
-                }
-                return tmpCssObject;
-            };
+            res      = null;
 
         if(css.is(args, css.rs)){
             res = css.do($this, css.rs, args[0]);
         } else if(css.is(args, css['rs+c'])){
-            result = css.do($this, css['rs+c'], args[0], args[1]);
+            res = css.do($this, css['rs+c'], args[0], args[1]);
         } else if(css.is(args, css.ws)){
-            result = css.do($this, css.ws, args[0], args[1]);
+            res = css.do($this, css.ws, args[0], args[1]);
         } else if(css.is(args, css['ws+c'])){
-            result = css.do($this, css['ws+c'], args[0], args[1], args[2]);
+            res = css.do($this, css['ws+c'], args[0], args[1], args[2]);
         } else if(css.is(args, css.wo)){
-            result = css.do($this, css.wo, args[0]);
+            res = css.do($this, css.wo, args[0]);
         } else if(css.is(args, css['wo+c'])){
-            result = css.do($this, css['wo+c'], args[0], args[1]);
-        }
-
-        // > write operations
-        if(bcUtils.isTypeof('string', args[0]) && bcUtils.isTypeof('string', args[1]) && !args[2]){
-            tmpObj[args[0]] = args[1];
-            writeCSS(self, objectCollectionToCamelCase(tmpObj));
-        } else if(bcUtils.isTypeof('object', args[0]) && bcUtils.isTypeof('undefined', args[1])){
-            writeCSS(self, objectCollectionToCamelCase(args[0]));
-        } else if(args[0] && args[1] && args[2]){
-            args[2].call(self, args[0], args[0]);
-        } else if(bcUtils.isTypeof('object', args[0]) && bcUtils.isTypeof('function', args[1])){
-            args[1].call(self, args[0]);
+            res = css.do($this, css['wo+c'], args[0], args[1]);
         }
 
         return res;

@@ -85,7 +85,6 @@ describe('liya.cssHelperMethods on real DOM', function(){
 
     });
     afterEach(function(){
-
         teardownHTMLFixture();
         var $element = $('#test-fixture-style');
         $element.parentNode.removeChild($element);
