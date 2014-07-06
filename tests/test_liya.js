@@ -24,10 +24,6 @@ describe('liya.cssHelperMethods', function(){
 
     var css = liya.cssHelperMethods;
 
-    beforeEach(function() {
-        setUpHTMLFixture();
-    });
-
     it('liya.cssHelperMethods.is', function() {
         // > read
         expect(true).toBe(css.is(['background-color'], 'read'));

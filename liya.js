@@ -118,7 +118,7 @@
             if(bcUtils.isTypeof('undefined', args) && bcUtils.isTypeof('undefined', expression)){
                 throw {
                     name: 'Error',
-                    message: 'First and Secton argument must be passed'
+                    message: 'First and Second argument must be passed'
                 };
             }
 
@@ -190,17 +190,17 @@
             };
 
         if(css.is(args, 'read')){
-
+            css.do_read(args[0]);
         } else if(css.is(args, 'read_with_callback')){
-
+            css.do_read_with_callback(args[0], args[1]);
         } else if(css.is(args, 'write_as_string')){
-
+            css.do_write_as_string(args[0], args[1]);
         } else if(css.is(args, 'write_as_string_with_callback')){
-
+            css.do_write_as_string_with_callback(args[0], args[1], args[2]);
         } else if(css.is(args, 'write_as_object')){
-
+            css.do_write_as_object(args[0]);
         } else if(css.is(args, 'write_as_object_with_callback')){
-
+            css.do_write_as_object_with_callback(args[0], args[1]);
         }
 
         // > write operations
