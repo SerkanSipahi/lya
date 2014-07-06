@@ -41,6 +41,7 @@
 
             var tmpCssObject={};
             for(var attr in object) {
+                if(!object.hasOwnProperty(attr)){ continue; }
                 tmpCssObject[this.toCamelCaseByRegex(expression, attr)] = object[attr];
             }
             return tmpCssObject;
@@ -101,9 +102,21 @@
         for(var i=0,length=this.length;i<length;i++){
             this[i].css.apply(this[i], arguments);
         }
+        //FIXME: collect this object in array and return it!
     };
 
     liya.cssHelperMethods = {
+        /*
+         * r=read, w=write c=callback, o=object,
+         * s=string, +=and
+         **/
+        'rs' : 'read',
+        'rs+c' : 'read_with_callback',
+        'ws' : 'write_as_string',
+        'ws+c' : 'write_as_string_with_callback',
+        'wo' : 'write_as_object',
+        'wo+c' : 'write_as_object_with_callback',
+
         writeCssObject : function(cssObject){
             for(var attr in cssObject){
                 if(!cssObject.hasOwnProperty(attr)){ continue; }
@@ -124,49 +137,60 @@
 
             // > read operation
             if(isTypeof('string', args[0]) && !args[1] && !args[2]){
-                tmpExpression = 'read';
+                tmpExpression = this.rs;
             } else if(isTypeof('string', args[0]) && isTypeof('function', args[1]) && !args[2]){
-                tmpExpression = 'read_with_callback';
+                tmpExpression = this['rs+c'];
             }
 
             // > write operations
             if(isTypeof('string', args[0]) && isTypeof('string', args[1]) && !args[2]){
-                tmpExpression = 'write_as_string';
+                tmpExpression = this.ws;
             } else if(isTypeof('string', args[0]) && isTypeof('string', args[1]) && isTypeof('function', args[2])){
-                tmpExpression = 'write_as_string_with_callback';
+                tmpExpression = this['ws+c'];
             } else if(isTypeof('object', args[0]) && !args[1] && !args[2]){
-                tmpExpression = 'write_as_object';
+                tmpExpression = this.wo;
             } else if(isTypeof('object', args[0]) && isTypeof('function', args[1]) && !args[2]){
-                tmpExpression = 'write_as_object_with_callback';
+                tmpExpression = this['wo+c'];
             }
 
             return (tmpExpression === expression);
         },
-        do_read : function(){
+        do : function($this, operation, arg1, arg2, arg3){
 
-        },
-        do_read_with_callback : function(){
+            var o = this, result=$this;
 
-        },
-        do_write_as_string : function(){
+            switch (operation) {
+                case o.rs:
+                    //document.write("Oranges are $0.59 a pound.<br>");
+                    break;
+                case o['rs+c']:
+                    //document.write("Apples are $0.32 a pound.<br>");
+                    break;
+                case o.ws:
+                    //document.write("Bananas are $0.48 a pound.<br>");
+                    break;
+                case o['ws+c']:
+                    //document.write("Cherries are $3.00 a pound.<br>");
+                    break;
+                case o.wo:
+                    //document.write("Mangoes and papayas are $2.79 a pound.<br>");
+                    break;
+                case o['wo+c']:
+                    //document.write("Mangoes and papayas are $2.79 a pound.<br>");
+                    break;
+            }
 
-        },
-        do_write_as_string_with_callback : function(){
-
-        },
-        do_write_as_object : function(){
-
-        },
-        do_write_as_object_with_callback : function(){
-
+            return result;
         }
     };
     HTMLElement.prototype.css = function(){
 
         var css      = liya.cssHelperMethods,
             self     = this,
+            $this    = this,
             args     = arguments,
             res      = null,
+            result   = null,
             style    = null,
             capital  = null,
             tmpObj   = {},
@@ -189,18 +213,18 @@
                 return tmpCssObject;
             };
 
-        if(css.is(args, 'read')){
-            css.do_read(args[0]);
-        } else if(css.is(args, 'read_with_callback')){
-            css.do_read_with_callback(args[0], args[1]);
-        } else if(css.is(args, 'write_as_string')){
-            css.do_write_as_string(args[0], args[1]);
-        } else if(css.is(args, 'write_as_string_with_callback')){
-            css.do_write_as_string_with_callback(args[0], args[1], args[2]);
-        } else if(css.is(args, 'write_as_object')){
-            css.do_write_as_object(args[0]);
-        } else if(css.is(args, 'write_as_object_with_callback')){
-            css.do_write_as_object_with_callback(args[0], args[1]);
+        if(css.is(args, css.rs)){
+            result = css.do($this, css.rs, args[0]);
+        } else if(css.is(args, css['rs+c'])){
+            result = css.do($this, css['rs+c'], args[0], args[1]);
+        } else if(css.is(args, css.ws)){
+            result = css.do($this, css.ws, args[0], args[1]);
+        } else if(css.is(args, css['ws+c'])){
+            result = css.do($this, css['ws+c'], args[0], args[1], args[2]);
+        } else if(css.is(args, css.wo)){
+            result = css.do($this, css.wo, args[0]);
+        } else if(css.is(args, css['wo+c'])){
+            result = css.do($this, css['wo+c'], args[0], args[1]);
         }
 
         // > write operations

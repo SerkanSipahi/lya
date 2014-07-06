@@ -12,12 +12,25 @@ var $ = document.querySelector.bind(document),
 
 describe('Testing bcUtils', function() {
 
+    var exp = '-([a-z])';
+
     it('toCamelCaseByRegex', function() {
-        var exp = '-([a-z])';
         expect('color').toBe(bcUtils.toCamelCaseByRegex(exp, 'color'));
         expect('backgroundColor').toBe(bcUtils.toCamelCaseByRegex(exp, 'background-color'));
         expect('borderLeftWidth').toBe(bcUtils.toCamelCaseByRegex(exp, 'border-left-width'));
     });
+
+    it('objectCollectionToCamelCase', function() {
+        var objectCollection = Object.keys(bcUtils.objectCollectionToCamelCase(exp, {
+            'color' : 'blue',
+            'background-color' : 'red',
+            'border-left-width' : '1px'
+        }));
+        expect(objectCollection).toContain('color');
+        expect(objectCollection).toContain('backgroundColor');
+        expect(objectCollection).toContain('borderLeftWidth'); 
+    });
+
 });
 
 describe('liya.cssHelperMethods', function(){
