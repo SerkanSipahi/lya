@@ -2,6 +2,9 @@
 
     'use strict';
 
+    // > namespaces
+    window.liya = {};
+
     // > write tests
     window.bcUtils = {
         // > http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#5624139
@@ -18,14 +21,15 @@
         },
         toCamelCaseByRegex : function(expression, value){
 
-            if(!bcUtils.isTypeof('string', expression) || !bcUtils.isTypeof('string', value)){
+            var matches;
+
+            if(!this.isTypeof('string', expression) || !this.isTypeof('string', value)){
                 throw {
-                    name: "Error",
-                    message: "one or both of the passed arguments are not a string"
-                }
+                    name: 'Error',
+                    message: 'one or both of the passed arguments are not a string'
+                };
             }
 
-            var matches;
             if((matches = this.matchAll(new RegExp(expression, 'g'), value))){
                 for(var i=0,length=matches.length;i<length;i++){
                     value = value.replace(matches[i][0], matches[i][1].toUpperCase());
@@ -33,7 +37,16 @@
             }
             return value;
         },
+        objectCollectionToCamelCase : function(expression, object){
+
+            var tmpCssObject={};
+            for(var attr in object) {
+                tmpCssObject[this.toCamelCaseByRegex(expression, attr)] = object[attr];
+            }
+            return tmpCssObject;
+        },
         matchAll : function(pattern, data, slice_start, slice_end){
+
             var matches = [], match;
             while ((match = pattern.exec(data))) {
                 matches.push(match);
@@ -89,36 +102,69 @@
             this[i].css.apply(this[i], arguments);
         }
     };
-    HTMLElement.prototype._css = {
+
+    liya.cssHelperMethods = {
         writeCssObject : function(cssObject){
             for(var attr in cssObject){
+                if(!cssObject.hasOwnProperty(attr)){ continue; }
                 self.style[attr] = cssObject[attr];
             }
         },
-        is : function(arg, expression){
+        is : function(args, expression){
 
-            var tmpExpression;
+            var isTypeof = bcUtils.isTypeof,
+                tmpExpression = '';
 
-            // > write operation
-            if(bcUtils.isTypeof('string', args[0]) && bcUtils.isTypeof('string', args[1]) && !args[2]){
-
-            } else if(bcUtils.isTypeof('object', args[0]) && bcUtils.isTypeof('undefined', args[1])){
-
-            } else if(args[0] && args[1] && args[2]){
-
-            } else if(bcUtils.isTypeof('object', args[0]) && bcUtils.isTypeof('function', args[1])){
+            if(bcUtils.isTypeof('undefined', args) && bcUtils.isTypeof('undefined', expression)){
+                throw {
+                    name: 'Error',
+                    message: 'First and Secton argument must be passed'
+                };
+            }
 
             // > read operation
-            } else if(bcUtils.isTypeof('string', args[0]) && !args[1] && !args[2]){
+            if(isTypeof('string', args[0]) && !args[1] && !args[2]){
+                tmpExpression = 'read';
+            } else if(isTypeof('string', args[0]) && isTypeof('function', args[1]) && !args[2]){
+                tmpExpression = 'read_with_callback';
+            }
 
+            // > write operations
+            if(isTypeof('string', args[0]) && isTypeof('string', args[1]) && !args[2]){
+                tmpExpression = 'write_as_string';
+            } else if(isTypeof('string', args[0]) && isTypeof('string', args[1]) && isTypeof('function', args[2])){
+                tmpExpression = 'write_as_string_with_callback';
+            } else if(isTypeof('object', args[0]) && !args[1] && !args[2]){
+                tmpExpression = 'write_as_object';
+            } else if(isTypeof('object', args[0]) && isTypeof('function', args[1]) && !args[2]){
+                tmpExpression = 'write_as_object_with_callback';
             }
 
             return (tmpExpression === expression);
+        },
+        do_read : function(){
+
+        },
+        do_read_with_callback : function(){
+
+        },
+        do_write_as_string : function(){
+
+        },
+        do_write_as_string_with_callback : function(){
+
+        },
+        do_write_as_object : function(){
+
+        },
+        do_write_as_object_with_callback : function(){
+
         }
     };
     HTMLElement.prototype.css = function(){
 
-        var self     = this,
+        var css      = liya.cssHelperMethods,
+            self     = this,
             args     = arguments,
             res      = null,
             style    = null,
@@ -143,17 +189,17 @@
                 return tmpCssObject;
             };
 
-        if(this._css.is(args, 'read')){
+        if(css.is(args, 'read')){
 
-        } else if(this._css.is(args, 'read_with_callback')){
+        } else if(css.is(args, 'read_with_callback')){
 
-        } else if(this._css.is(args, 'write_as_string')){
+        } else if(css.is(args, 'write_as_string')){
 
-        } else if(this._css.is(args, 'write_as_string_with_callback')){
+        } else if(css.is(args, 'write_as_string_with_callback')){
 
-        } else if(this._css.is(args, 'write_as_object')){
+        } else if(css.is(args, 'write_as_object')){
 
-        } else if(this._css.is(args, 'write_as_object_with_callback')){
+        } else if(css.is(args, 'write_as_object_with_callback')){
 
         }
 
