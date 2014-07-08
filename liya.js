@@ -2,50 +2,49 @@
 
     'use strict';
 
-    // > namespaces
-    window.liya = {};
-
-    // > write tests
-    window.bcUtils = {
-        // > http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#5624139
-        rgbToHex : function(r, g, b) {
-            var match = null;
-            // > if we pass like this: 'rgb(255, 255, 255)'
-            if(typeof(r)==='string' && (match = /rgb\((\d+), (\d+), (\d+)\)/ig.exec(r))){
-                r=~~match[1], g=~~match[2], b=~~match[3];
-            }
-            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        },
-        isTypeof : function(type, object){
-            return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
-        },
-        toCamelCaseByRegex : function(expression, value){
-
-            var matches;
-
-            if((matches = this.matchAll(new RegExp(expression, 'g'), value))){
-                for(var i=0,length=matches.length;i<length;i++){
-                    value = value.replace(matches[i][0], matches[i][1].toUpperCase());
+    window.liya = {
+        utils : {
+            // > http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#5624139
+            rgbToHex : function(r, g, b) {
+                var match = null;
+                // > if we pass like this: 'rgb(255, 255, 255)'
+                if(typeof(r)==='string' && (match = /rgb\((\d+), (\d+), (\d+)\)/ig.exec(r))){
+                    r=~~match[1], g=~~match[2], b=~~match[3];
                 }
-            }
-            return value;
-        },
-        objectCollectionToCamelCase : function(expression, object){
+                return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+            },
+            isTypeof : function(type, object){
+                return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
+            },
+            //FIXME: ändern in camalBase, expression kann optinal übergeben werden
+            toCamelCaseByRegex : function(expression, value){
 
-            var tmpCssObject={};
-            for(var attr in object) {
-                if(!object.hasOwnProperty(attr)){ continue; }
-                tmpCssObject[this.toCamelCaseByRegex(expression, attr)] = object[attr];
-            }
-            return tmpCssObject;
-        },
-        matchAll : function(pattern, data, slice_start, slice_end){
+                var matches, matchAll = liya.utils.matchAll;
 
-            var matches = [], match;
-            while ((match = pattern.exec(data))) {
-                matches.push(match);
+                if((matches = matchAll(new RegExp(expression, 'g'), value))){
+                    for(var i=0,length=matches.length;i<length;i++){
+                        value = value.replace(matches[i][0], matches[i][1].toUpperCase());
+                    }
+                }
+                return value;
+            },
+            objectCollectionToCamelCase : function(expression, object){
+
+                var tmpCssObject={}, camelCase = liya.utils.toCamelCaseByRegex;
+                for(var attr in object) {
+                    if(!object.hasOwnProperty(attr)){ continue; }
+                    tmpCssObject[camelCase(expression, attr)] = object[attr];
+                }
+                return tmpCssObject;
+            },
+            matchAll : function(pattern, data, slice_start, slice_end){
+
+                var matches = [], match;
+                while ((match = pattern.exec(data))) {
+                    matches.push(match);
+                }
+                return matches;
             }
-            return matches;
         }
     };
 
@@ -81,14 +80,12 @@
         }
     };
 
-    // > get(index)
     Array.prototype.get =
     NodeList.prototype.get =
     HTMLCollection.prototype.get = function(index){
         return this[index];
     };
 
-    // > css helper
     Array.prototype.css =
     NodeList.prototype.css =
     HTMLCollection.prototype.css = function(){
@@ -98,7 +95,11 @@
         //FIXME: collect this object in array and return it!
     };
 
-    liya.cssHelperMethods = {
+    liya.supports = {
+
+    };
+    liya.css = {
+        styleRegexExpression : '-([a-z])',
         /*
          * r=read, w=write c=callback, o=object,
          * s=string, +=and
@@ -109,7 +110,17 @@
         'ws+c' : 'write_as_string_with_callback',
         'wo'   : 'write_as_object',
         'wo+c' : 'write_as_object_with_callback',
+        getStyle : function($this, arg){
 
+            var result,
+                computedStyle = window.getComputedStyle,
+                rgbToHex = liya.utils.rgbToHex,
+                expression = liya.css.styleRegexExpression,
+                camelCase = liya.utils.toCamelCaseByRegex;
+
+            result = $this.style[camelCase(expression, arg)] || computedStyle($this).getPropertyValue(arg);
+            return /rgb\((\d+), (\d+), (\d+)\)/ig.test(result) ? rgbToHex(result) : result;
+        },
         writeCssObject : function(cssObject){
             for(var attr in cssObject){
                 if(!cssObject.hasOwnProperty(attr)){ continue; }
@@ -118,7 +129,7 @@
         },
         is : function(args, expression){
 
-            var isTypeof = bcUtils.isTypeof,
+            var isTypeof = liya.utils.isTypeof,
                 tmpExpression = '';
 
             // > read operation
@@ -144,21 +155,23 @@
         do : function($this, operation, arg1, arg2, arg3){
 
             var o = this,
+                styleAttr = '',
+                getStyle = liya.css.getStyle,
+                utils = liya.utils,
                 result = $this,
-                computedStyle = window.getComputedStyle,
-                toCamelCaseByRegex = bcUtils.toCamelCaseByRegex.bind(bcUtils),
-                rgbToHex = bcUtils.rgbToHex,
-                styleAttr, expression = '-([a-z])';
+                camelCase = utils.toCamelCaseByRegex,
+                expression = liya.css.styleRegexExpression;
 
-            styleAttr = toCamelCaseByRegex(expression, arg1);
+            getStyle($this, 'background-color');
+            styleAttr = camelCase(expression, arg1);
 
             switch (operation) {
                 case o.rs:
-                    result = $this.style[styleAttr] || computedStyle($this).getPropertyValue(arg1);
-                    result = /rgb\((\d+), (\d+), (\d+)\)/ig.test(result) ? rgbToHex(result) : result;
+                    result = getStyle($this, arg1);
                     break;
                 case o['rs+c']:
-                    //document.write("Apples are $0.32 a pound.<br>");
+                    result = getStyle($this, arg1);
+                    result = arg2.call($this, arg1) || result;
                     break;
                 case o.ws:
                     //document.write("Bananas are $0.48 a pound.<br>");
@@ -179,7 +192,7 @@
     };
     HTMLElement.prototype.css = function(){
 
-        var css      = liya.cssHelperMethods,
+        var css      = liya.css,
             $this    = this,
             args     = arguments,
             res      = null;
@@ -196,12 +209,14 @@
             res = css.do($this, css.wo, args[0]);
         } else if(css.is(args, css['wo+c'])){
             res = css.do($this, css['wo+c'], args[0], args[1]);
+        } else if(css.is(args, css.re)){
+            // > re=read empty, attribute löschen --> test schreiben
+        } else if(css.is(args, css.ra)){
+            // > multi attribute lesen --> test schreiben
         }
 
         return res;
     };
-
-    // > Remove Element from DomTree
     HTMLElement.prototype.remove = function(){
         this.parentNode.removeChild(this);
     };
@@ -209,8 +224,6 @@
     HTMLCollection.prototype.remove = function(){
         this.each(function(){ this.remove(); });
     };
-
-    // > find children of Element
     HTMLElement.prototype.find = function(selector){
         return this.querySelectorAll(selector);
     };

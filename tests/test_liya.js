@@ -16,16 +16,17 @@ var $ = document.querySelector.bind(document),
 
 describe('Testing bcUtils', function() {
 
-    var exp = '-([a-z])';
+    var exp = '-([a-z])',
+        utils = liya.utils;
 
     it('toCamelCaseByRegex', function() {
-        expect('color').toBe(bcUtils.toCamelCaseByRegex(exp, 'color'));
-        expect('backgroundColor').toBe(bcUtils.toCamelCaseByRegex(exp, 'background-color'));
-        expect('borderLeftWidth').toBe(bcUtils.toCamelCaseByRegex(exp, 'border-left-width'));
+        expect('color').toBe(utils.toCamelCaseByRegex(exp, 'color'));
+        expect('backgroundColor').toBe(utils.toCamelCaseByRegex(exp, 'background-color'));
+        expect('borderLeftWidth').toBe(utils.toCamelCaseByRegex(exp, 'border-left-width'));
     });
 
     it('objectCollectionToCamelCase', function() {
-        var objectCollection = Object.keys(bcUtils.objectCollectionToCamelCase(exp, {
+        var objectCollection = Object.keys(utils.objectCollectionToCamelCase(exp, {
             'color' : 'blue',
             'background-color' : 'red',
             'border-left-width' : '1px'
@@ -37,9 +38,9 @@ describe('Testing bcUtils', function() {
 
 });
 
-describe('liya.cssHelperMethods', function(){
+describe('liya.css', function(){
 
-    var css = liya.cssHelperMethods;
+    var css = liya.css;
 
     it('liya.cssHelperMethods.is', function() {
         // > read
@@ -58,9 +59,9 @@ describe('liya.cssHelperMethods', function(){
 
 });
 
-describe('liya.cssHelperMethods on real DOM', function(){
+describe('liya.css on real DOM', function(){
 
-    var css = liya.cssHelperMethods;
+    var css = liya.css;
 
     beforeEach(function(){
         setUpHTMLFixture();
@@ -90,7 +91,7 @@ describe('liya.cssHelperMethods on real DOM', function(){
         $element.parentNode.removeChild($element);
     });
 
-    it('liya.cssHelperMethods.do', function() {
+    it('liya.css.do read and read+callback', function() {
 
         var $testInlineStyle = $('#test-inline-style'),
             $testWithoutInlineStyle = $('#test-without-inline-style');
