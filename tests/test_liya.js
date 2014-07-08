@@ -61,7 +61,9 @@ describe('liya.css', function(){
 
 describe('liya.css on real DOM', function(){
 
-    var css = liya.css;
+    var css = liya.css,
+        $testInlineStyle = {},
+        $testWithoutInlineStyle = {};
 
     beforeEach(function(){
         setUpHTMLFixture();
@@ -83,18 +85,20 @@ describe('liya.css on real DOM', function(){
         $('head').appendChild(style);
         $('#test-fixture-style').sheet.insertRule(styleSheedRule, 0);
 
+        $testInlineStyle = $('#test-inline-style'),
+        $testWithoutInlineStyle = $('#test-without-inline-style');
+
 
     });
     afterEach(function(){
+        /*
         teardownHTMLFixture();
         var $element = $('#test-fixture-style');
         $element.parentNode.removeChild($element);
+        */
     });
 
-    it('liya.css.do read and read+callback', function() {
-
-        var $testInlineStyle = $('#test-inline-style'),
-            $testWithoutInlineStyle = $('#test-without-inline-style');
+    it('liya.css.do read', function() {
 
         expect('999px').toBe(css.do($testInlineStyle, 'read', 'height'));
         expect('yellow').toBe(css.do($testInlineStyle, 'read', 'background-color'));
@@ -105,6 +109,32 @@ describe('liya.css on real DOM', function(){
         expect('solid').toBe(css.do($testWithoutInlineStyle, 'read', 'border-left-style'));
         expect('22px').toBe(css.do($testWithoutInlineStyle, 'read', 'border-left-width'));
         expect('15px').toBe(css.do($testWithoutInlineStyle, 'read', 'border-top-width'));
+
+    });
+
+    it('liya.css.do read+callback', function() {
+
+        expect('height').toBe(css.do($testInlineStyle, 'read_with_callback', 'height', function(arg){
+            return arg;
+        }));
+        expect('999px').toBe(css.do($testInlineStyle, 'read_with_callback', 'height', function(arg){
+
+        }));
+        expect('222px').toBe(css.do($testInlineStyle, 'read_with_callback', 'height', function(arg){
+            return '222px';
+        }));
+
+        //****************************************************************************
+
+        expect('border-left-style').toBe(css.do($testWithoutInlineStyle, 'read_with_callback', 'border-left-style', function(arg){
+            return arg;
+        }));
+        expect('solid').toBe(css.do($testWithoutInlineStyle, 'read_with_callback', 'border-left-style', function(arg){
+
+        }));
+        expect('dotted').toBe(css.do($testWithoutInlineStyle, 'read_with_callback', 'border-left-style', function(arg){
+            return 'dotted';
+        }));
 
     });
 

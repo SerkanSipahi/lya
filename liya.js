@@ -155,23 +155,19 @@
         do : function($this, operation, arg1, arg2, arg3){
 
             var o = this,
-                styleAttr = '',
+                styleAttr = camelCase(expression, arg1),
                 getStyle = liya.css.getStyle,
                 utils = liya.utils,
                 result = $this,
                 camelCase = utils.toCamelCaseByRegex,
                 expression = liya.css.styleRegexExpression;
 
-            getStyle($this, 'background-color');
-            styleAttr = camelCase(expression, arg1);
-
             switch (operation) {
                 case o.rs:
                     result = getStyle($this, arg1);
                     break;
                 case o['rs+c']:
-                    result = getStyle($this, arg1);
-                    result = arg2.call($this, arg1) || result;
+                    result = arg2.call($this, arg1) || getStyle($this, arg1);
                     break;
                 case o.ws:
                     //document.write("Bananas are $0.48 a pound.<br>");
