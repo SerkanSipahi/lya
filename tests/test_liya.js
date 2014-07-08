@@ -98,44 +98,44 @@ describe('liya.css on real DOM', function(){
         */
     });
 
-    it('liya.css.do read', function() {
+    it('liya.css read', function() {
+        expect('999px').toBe($testInlineStyle.css('height'));
+        expect('yellow').toBe($testInlineStyle.css('background-color'));
+        expect('222px').toBe($testInlineStyle.css('border-left-width'));
 
-        expect('999px').toBe(css.do($testInlineStyle, 'read', 'height'));
-        expect('yellow').toBe(css.do($testInlineStyle, 'read', 'background-color'));
-        expect('222px').toBe(css.do($testInlineStyle, 'read', 'border-left-width'));
-
-        expect('666px').toBe(css.do($testWithoutInlineStyle, 'read', 'height'));
-        expect('#ff0000').toBe(css.do($testWithoutInlineStyle, 'read', 'background-color'));
-        expect('solid').toBe(css.do($testWithoutInlineStyle, 'read', 'border-left-style'));
-        expect('22px').toBe(css.do($testWithoutInlineStyle, 'read', 'border-left-width'));
-        expect('15px').toBe(css.do($testWithoutInlineStyle, 'read', 'border-top-width'));
-
+        expect('666px').toBe($testWithoutInlineStyle.css('height'));
+        expect('#ff0000').toBe($testWithoutInlineStyle.css('background-color'));
+        expect('solid').toBe($testWithoutInlineStyle.css('border-left-style'));
+        expect('22px').toBe($testWithoutInlineStyle.css('border-left-width'));
+        expect('15px').toBe($testWithoutInlineStyle.css('border-top-width'));
     });
 
-    it('liya.css.do read+callback', function() {
-
-        expect('height').toBe(css.do($testInlineStyle, 'read_with_callback', 'height', function(arg){
+    it('liya.css read+callback', function() {
+        expect('height').toBe($testInlineStyle.css('height', function(arg){
             return arg;
         }));
-        expect('999px').toBe(css.do($testInlineStyle, 'read_with_callback', 'height', function(arg){
+        expect('999px').toBe($testInlineStyle.css('height', function(arg){
 
         }));
-        expect('222px').toBe(css.do($testInlineStyle, 'read_with_callback', 'height', function(arg){
+        expect('222px').toBe($testInlineStyle.css('height', function(arg){
             return '222px';
         }));
 
         //****************************************************************************
 
-        expect('border-left-style').toBe(css.do($testWithoutInlineStyle, 'read_with_callback', 'border-left-style', function(arg){
+        expect('border-left-style').toBe($testWithoutInlineStyle.css('border-left-style', function(arg){
             return arg;
         }));
-        expect('solid').toBe(css.do($testWithoutInlineStyle, 'read_with_callback', 'border-left-style', function(arg){
+        expect('solid').toBe($testWithoutInlineStyle.css('border-left-style', function(arg){
 
         }));
-        expect('dotted').toBe(css.do($testWithoutInlineStyle, 'read_with_callback', 'border-left-style', function(arg){
+        expect('dotted').toBe($testWithoutInlineStyle.css('border-left-style', function(arg){
             return 'dotted';
         }));
+    });
 
+    it('liya.css write_as_string', function() {
+        
     });
 
 });

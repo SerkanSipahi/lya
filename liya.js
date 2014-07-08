@@ -17,6 +17,7 @@
                 return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
             },
             //FIXME: ändern in camalBase, expression kann optinal übergeben werden
+            //FIXME: auch ein object als value kann übergeben werden
             toCamelCaseByRegex : function(expression, value){
 
                 var matches, matchAll = liya.utils.matchAll;
@@ -155,12 +156,12 @@
         do : function($this, operation, arg1, arg2, arg3){
 
             var o = this,
-                styleAttr = camelCase(expression, arg1),
                 getStyle = liya.css.getStyle,
                 utils = liya.utils,
                 result = $this,
                 camelCase = utils.toCamelCaseByRegex,
-                expression = liya.css.styleRegexExpression;
+                expression = liya.css.styleRegexExpression,
+                attr = camelCase(expression, arg1);
 
             switch (operation) {
                 case o.rs:
@@ -170,7 +171,7 @@
                     result = arg2.call($this, arg1) || getStyle($this, arg1);
                     break;
                 case o.ws:
-                    //document.write("Bananas are $0.48 a pound.<br>");
+                    $this.style[attr] = arg2;
                     break;
                 case o['ws+c']:
                     //document.write("Cherries are $3.00 a pound.<br>");
