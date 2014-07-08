@@ -111,6 +111,31 @@
         'ws+c' : 'write_as_string_with_callback',
         'wo'   : 'write_as_object',
         'wo+c' : 'write_as_object_with_callback',
+
+        initialize : function($this, args){
+
+            var css = liya.css, res;
+
+            if(css.is(args, css.rs)){
+                res = css.do($this, css.rs, args[0]);
+            } else if(css.is(args, css['rs+c'])){
+                res = css.do($this, css['rs+c'], args[0], args[1]);
+            } else if(css.is(args, css.ws)){
+                res = css.do($this, css.ws, args[0], args[1]);
+            } else if(css.is(args, css['ws+c'])){
+                res = css.do($this, css['ws+c'], args[0], args[1], args[2]);
+            } else if(css.is(args, css.wo)){
+                res = css.do($this, css.wo, args[0]);
+            } else if(css.is(args, css['wo+c'])){
+                res = css.do($this, css['wo+c'], args[0], args[1]);
+            } else if(css.is(args, css.re)){
+                // > re=read empty, attribute löschen --> test schreiben
+            } else if(css.is(args, css.ra)){
+                // > multi attribute lesen --> test schreiben
+            }
+
+            return res;
+        },
         getStyle : function($this, arg){
 
             var result,
@@ -188,31 +213,7 @@
         }
     };
     HTMLElement.prototype.css = function(){
-
-        var css      = liya.css,
-            $this    = this,
-            args     = arguments,
-            res      = null;
-
-        if(css.is(args, css.rs)){
-            res = css.do($this, css.rs, args[0]);
-        } else if(css.is(args, css['rs+c'])){
-            res = css.do($this, css['rs+c'], args[0], args[1]);
-        } else if(css.is(args, css.ws)){
-            res = css.do($this, css.ws, args[0], args[1]);
-        } else if(css.is(args, css['ws+c'])){
-            res = css.do($this, css['ws+c'], args[0], args[1], args[2]);
-        } else if(css.is(args, css.wo)){
-            res = css.do($this, css.wo, args[0]);
-        } else if(css.is(args, css['wo+c'])){
-            res = css.do($this, css['wo+c'], args[0], args[1]);
-        } else if(css.is(args, css.re)){
-            // > re=read empty, attribute löschen --> test schreiben
-        } else if(css.is(args, css.ra)){
-            // > multi attribute lesen --> test schreiben
-        }
-
-        return res;
+        return liya.css.initialize(this, arguments);
     };
     HTMLElement.prototype.remove = function(){
         this.parentNode.removeChild(this);
