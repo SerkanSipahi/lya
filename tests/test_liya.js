@@ -135,7 +135,21 @@ describe('liya.css on real DOM', function(){
     });
 
     it('liya.css write_as_string', function() {
-        
+        // except this object
+
+        var $element = createElement('div');
+        $element.id = 'test-write-as-string';
+        $('#fixtureContainer').appendChild($element);
+
+        expect($element).toBe($element.css('height', '333px'));
+        expect('333px').toBe($element.css('height'));
+
+        expect($element).toBe($element.css('background-color', '#ff0000'));
+        expect('#ff0000').toBe($element.css('background-color'));
+
+        expect($element).toBe($element.css('list-style-type', 'decimal'));
+        expect('decimal').toBe($element.css('list-style-type'));
+
     });
 
 });
