@@ -148,7 +148,7 @@
                 camelCase = liya.utils.toCamelCaseByRegex;
 
             result = $this.style[camelCase(expression, arg)] || computedStyle($this).getPropertyValue(arg);
-            return result.indexOf('rgb(')!==-1 && result.indexOf(')')!==-1 ? rgbToHex(result) : result;
+            return /rgb\((\d+), (\d+), (\d+)\)/ig.test(result) ? rgbToHex(result) : result;
         },
         writeCssObject : function(cssObject){
             for(var attr in cssObject){
