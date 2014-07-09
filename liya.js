@@ -81,8 +81,7 @@
                 if(!this.hasOwnProperty(item)) { continue; }
                 callback.call(this, item, this[item]);
             }
-        },
-        enumerable : false
+        }
     });
 
     Array.prototype.get =
