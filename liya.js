@@ -78,7 +78,7 @@
     Object.defineProperty(Object.prototype, "each", { 
         value: function(callback) {
             for(var item in this){
-                if(!this.hasOwnProperty(item)) { continue; }
+                if(!this.hasOwnProperty(item) && !liya.utils.isTypeof('function', callback)) { continue; }
                 callback.call(this, item, this[item]);
             }
         }
