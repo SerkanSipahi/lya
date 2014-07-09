@@ -174,4 +174,29 @@ describe('liya.css on real DOM', function(){
 
     });
 
+    it('liya.css write_as_object', function() {
+
+        var $element = createElement('div');
+        $element.id = 'test-write-as-object';
+        $('#fixtureContainer').appendChild($element);
+
+        expect($element).toBe($element.css({
+            'width' : '200px',
+            'height' : '300px',
+            'background-color' : 'blue',
+            'color' : 'blue',
+            'border' : '1px solid red',
+            'list-style-type' : 'square'
+        }));
+        expect('200px').toBe($element.css('width'));
+        expect('300px').toBe($element.css('height'));
+        // > probleme im firefox desktop&mobile
+        //expect('blue').toBe($element.css('background-color'));
+        expect('1px solid red').toBe($element.css('border'));
+        // > probleme im firefox desktop&mobile
+        //expect('square').toBe($element.css('list-style-type'));
+
+    });
+
+
 });

@@ -151,10 +151,10 @@
             result = $this.style[camelCase(expression, arg)] || computedStyle($this).getPropertyValue(arg);
             return /rgb\((\d+), (\d+), (\d+)\)/ig.test(result) ? rgbToHex(result) : result;
         },
-        writeCssObject : function(cssObject){
+        writeCssObject : function($this, cssObject){
             for(var attr in cssObject){
                 if(!cssObject.hasOwnProperty(attr)){ continue; }
-                self.style[attr] = cssObject[attr];
+                $this.style[attr] = cssObject[attr];
             }
         },
         is : function(args, expression){
@@ -186,6 +186,7 @@
 
             var o = this,
                 getStyle = liya.css.getStyle,
+                writeCssObject = liya.css.writeCssObject,
                 utils = liya.utils,
                 result = $this,
                 camelCase = utils.toCamelCaseByRegex,
@@ -206,7 +207,7 @@
                     !arg3.call($this, arg1, arg2) ? $this.style[attr] = arg2 : null;
                     break;
                 case o.wo:
-                    //document.write("Mangoes and papayas are $2.79 a pound.<br>");
+                    writeCssObject($this, arg1);
                     break;
                 case o['wo+c']:
                     //document.write("Mangoes and papayas are $2.79 a pound.<br>");
