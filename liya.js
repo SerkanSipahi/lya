@@ -74,7 +74,7 @@
     HTMLCollection.prototype.each = function(callback){
         Window.prototype.for.call(this, callback);
     };
-    Object.defineProperty(Object.prototype, "each", { 
+    Object.defineProperty(Object.prototype, 'each', {
         value: function(callback) {
 	    var isTypeof = liya.utils.isTypeof;
             if(isTypeof('object', this) && isTypeof('function', callback)) {
@@ -203,7 +203,7 @@
                     $this.style[attr] = arg2;
                     break;
                 case o['ws+c']:
-                    //document.write("Cherries are $3.00 a pound.<br>");
+                    !arg3.call($this, arg1, arg2) ? $this.style[attr] = arg2 : null;
                     break;
                 case o.wo:
                     //document.write("Mangoes and papayas are $2.79 a pound.<br>");

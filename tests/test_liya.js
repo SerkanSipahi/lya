@@ -152,4 +152,26 @@ describe('liya.css on real DOM', function(){
 
     });
 
+    it('liya.css write_as_string_with_callback', function() {
+        // except this object
+
+        var $element = createElement('div');
+        $element.id = 'test-write-as-string-with-callback';
+        $('#fixtureContainer').appendChild($element);
+
+        expect($element).toBe($element.css('height', '222px', function(attr, value){}));
+        expect('222px').toBe($element.css('height'));
+
+        expect($element).toBe($element.css('height', '444px', function(attr, value){
+            return true;
+        }));
+        expect('222px').toBe($element.css('height'));
+
+        expect($element).toBe($element.css('height', '444px', function(attr, value){
+            return false;
+        }));
+        expect('444px').toBe($element.css('height'));
+
+    });
+
 });
