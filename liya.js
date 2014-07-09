@@ -74,12 +74,16 @@
     HTMLCollection.prototype.each = function(callback){
         Window.prototype.for.call(this, callback);
     };
-    Object.prototype.each = function(callback){
-        for(var item in this){
-            if(!this.hasOwnProperty(item)) { continue; }
-            callback.call(this, item, this[item]);
-        }
-    };
+
+    Object.defineProperty(Object.prototype, "each", { 
+        value: function(callback) {
+            for(var item in this){
+                if(!this.hasOwnProperty(item)) { continue; }
+                callback.call(this, item, this[item]);
+            }
+        },
+        enumerable : false
+    });
 
     Array.prototype.get =
     NodeList.prototype.get =
