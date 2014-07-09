@@ -74,16 +74,15 @@
     HTMLCollection.prototype.each = function(callback){
         Window.prototype.for.call(this, callback);
     };
-    /*
     Object.defineProperty(Object.prototype, "each", { 
         value: function(callback) {
-            for(var item in this){
-                if(!this.hasOwnProperty(item) && !liya.utils.isTypeof('function', callback)) { continue; }
+        if(!liya.utils.isTypeof('function', callback)) { return; }
+	for(var item in this){
+                if(!this.hasOwnProperty(item))) { continue; }
                 callback.call(this, item, this[item]);
             }
         }
     });
-    */
     Array.prototype.get =
     NodeList.prototype.get =
     HTMLCollection.prototype.get = function(index){
