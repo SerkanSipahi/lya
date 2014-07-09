@@ -74,7 +74,7 @@
     HTMLCollection.prototype.each = function(callback){
         Window.prototype.for.call(this, callback);
     };
-
+    /*
     Object.defineProperty(Object.prototype, "each", { 
         value: function(callback) {
             for(var item in this){
@@ -83,7 +83,7 @@
             }
         }
     });
-
+    */
     Array.prototype.get =
     NodeList.prototype.get =
     HTMLCollection.prototype.get = function(index){
