@@ -76,7 +76,8 @@
     };
     Object.defineProperty(Object.prototype, "each", { 
         value: function(callback) {
-        if(!liya.utils.isTypeof('function', callback)) { return; }
+	var isTypeof = liya.utils;
+        if(!isTypeof('object', this) && !isTypeof('function', callback)) { return; }
 	for(var item in this){
                 if(!this.hasOwnProperty(item))) { continue; }
                 callback.call(this, item, this[item]);
