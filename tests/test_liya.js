@@ -40,7 +40,7 @@ describe('Testing bcUtils', function() {
 
 describe('liya.css', function(){
 
-    var css = liya.css;
+    var css = new liya.css(liya.utils);
 
     it('liya.cssHelperMethods.is', function() {
         // > read
@@ -61,8 +61,7 @@ describe('liya.css', function(){
 
 describe('liya.css on real DOM', function(){
 
-    var css = liya.css,
-        $testInlineStyle = {},
+    var $testInlineStyle = {},
         $testWithoutInlineStyle = {};
 
     beforeEach(function(){
