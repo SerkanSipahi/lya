@@ -95,12 +95,13 @@
 
         return tmpContainer;
     };
-
+    /*
     Array.prototype.each =
     NodeList.prototype.each =
     HTMLCollection.prototype.each = function(callback){
         return liya.each(this, callback);
     };
+    */
     /*
     // >  FIXME: Funkioniert nicht !!
     Object.defineProperty(Object.prototype, 'each', {
