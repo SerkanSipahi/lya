@@ -91,15 +91,6 @@
         return this[index];
     };
 
-    Array.prototype.css =
-    NodeList.prototype.css =
-    HTMLCollection.prototype.css = function(){
-        for(var i=0,length=this.length;i<length;i++){
-            this[i].css.apply(this[i], arguments);
-        }
-        //FIXME: collect this object in array and return it!
-    };
-
     liya.css = function(utils){
 
         var instance = this;
@@ -121,7 +112,7 @@
         this.camelCase = utils.toCamelCaseByRegex;
         this.isTypeof = utils.isTypeof;
 
-        liya.dcc = function(){
+        liya.css = function(){
             return instance;
         };
 
@@ -143,8 +134,6 @@
                 res = self.exec($this, io.wo, args[0]);
             } else if(self.is(args, io['wo+c'])){
                 res = self.exec($this, io['wo+c'], args[0], args[1]);
-            } else if(self.is(args, io.re)){
-                // > re=read empty, attribute löschen --> test schreiben
             } else if(self.exec(args, io.ra)){
                 // > multi attribute lesen --> test schreiben
             }
@@ -215,15 +204,26 @@
                     self.writeCssObject($this, arg1);
                     break;
                 case io['wo+c']:
-                    //document.write("Mangoes and papayas are $2.79 a pound.<br>");
+                    !arg2.call($this, arg1) ? self.writeCssObject($this, arg1) : null;
                     break;
+
             }
             return result;
         }
     };
+
     HTMLElement.prototype.css = function(){
         return (new liya.css(liya.utils)).initialize(this, arguments);
     };
+    Array.prototype.css =
+    NodeList.prototype.css =
+    HTMLCollection.prototype.css = function(){
+        for(var i=0,length=this.length;i<length;i++){
+            this[i].css.apply(this[i], arguments);
+        }
+        //FIXME: collect this object in array and return it!
+    };
+
     HTMLElement.prototype.remove = function(){
         this.parentNode.removeChild(this);
     };
