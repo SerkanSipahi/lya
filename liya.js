@@ -52,9 +52,11 @@
     var isTypeof = liya.utils.isTypeof;
 
     // > global error handling
+    /*
     window.onerror = function errorHandler(message, url, line){
         console.log('onerror', arguments);
     };
+    */
 
     liya.each = function(object, callback, $context){
 
