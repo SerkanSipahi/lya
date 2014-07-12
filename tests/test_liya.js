@@ -219,26 +219,31 @@ describe('liya.each on DOM/Array', function(){
 
     var aRes, $res, innerHtml = '',
         $container = createElement('div'),
-        $body = $('body');
+        $body = $('body'),
+        array = [22,44,456,2,98,32];
 
     $container.id = 'fixtureContainerEach';
     $body.appendChild($container);
 
     for(var i= 0; i < 100; i++){
-        innerHtml += '<div class="foo-for-each">this is('+i+')</div>'
+        innerHtml += '<div class="foo-for-each">this is('+i+')</div>';
     }
     $('#fixtureContainerEach').html(innerHtml);
 
-    aRes = [1,2,3,4,5,6].each(function(k, v){
-        //console.log(this.toString());
+    aRes = array.each(function(k, v){
+        expect(array).toContain(array[k]);
     });
 
-    $res = $$('#fixtureContainerEach *').each(function($this, k, v){
-        //console.log('x', this);
+    $res = $$('#fixtureContainerEach *').each(function(key, value){
+        this.css('border', key+'px solid green');
+    });
+    $res.css('font-weight', 'bold');
+
+    $res = document.querySelectorAll('#fixtureContainerEach *').css({
+       'list-style-type' : 'square',
+        'font-family' : 'verdana'
     });
 
-    console.log(isTypeof('array', aRes));
-    console.log(isTypeof('nodelist', $res));
-
+    // > console.log($res);
 
 });

@@ -51,13 +51,6 @@
 
     var isTypeof = liya.utils.isTypeof;
 
-    // > global error handling
-    /*
-    window.onerror = function errorHandler(message, url, line){
-        console.log('onerror', arguments);
-    };
-    */
-
     liya.each = function(object, callback, $context){
 
         // > TODO: $conetxt = context dom object
@@ -66,34 +59,19 @@
 
         var t = object,
             len = t.length,
-            container = [],
-            tmpContainer = null,
-            tmpElement = document.createElement('div');
+            container = [];
 
         if (typeof callback !== 'function') { throw new TypeError(); }
         for (var i = 0; i < len; i++){
             if (i in t){
-
                 // > TODO: - wenn t[i]=number dann in parseInt(t[i].toString(), 10)
                 // >       - bei float(/\./.test(t[i].toString()))=parseFloat
                 // >       - bei string einfach t[i].toString()
-
                 callback.call(t[i], i, t[i]);
-                if(isTypeof('array', t)){
-                    container.push(t[i]);
-                } else if(isTypeof('nodelist', t) || isTypeof('htmlcollection', t)){
-                    tmpElement.appendChild(t[i]);
-                }
+                container.push(t[i]);
             }
         }
-
-        if(!container.length){
-            tmpContainer = tmpElement.querySelectorAll('*'); tmpElement = null;
-        } else {
-            tmpContainer = container;
-        }
-
-        return tmpContainer;
+        return container;
     };
 
     Array.prototype.each =
@@ -234,7 +212,6 @@
                 case io['wo+c']:
                     !arg2.call($this, arg1) ? self.writeCssObject($this, arg1) : null;
                     break;
-
             }
             return result;
         }
@@ -246,15 +223,16 @@
     Array.prototype.css =
     NodeList.prototype.css =
     HTMLCollection.prototype.css = function(){
-        return this.each(function(){ this.css.apply(this, arguments); });
+        return this.each(function(key, domnode){
+            domnode.css.apply(domnode, this.args);
+        }.bind({ args:arguments }));
     };
-
     HTMLElement.prototype.remove = function(){
         this.parentNode.removeChild(this);
     };
     NodeList.prototype.remove =
     HTMLCollection.prototype.remove = function(){
-        this.each(function(){ this.remove(); });
+        this.each(function(key, domnode){ domnode.remove(); });
     };
     HTMLElement.prototype.find = function(selector){
         return this.querySelectorAll(selector);
