@@ -64,8 +64,8 @@
 
         if (object === void 0 || object === null) { throw new TypeError(); }
 
-        var t = Object(object),
-            len = t.length >>> 0,
+        var t = object,
+            len = t.length,
             container = [],
             tmpContainer = null,
             tmpElement = document.createElement('div');
