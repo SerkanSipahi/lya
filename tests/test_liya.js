@@ -2,6 +2,7 @@
 var $ = document.querySelector.bind(document),
     $$ = document.querySelectorAll.bind(document),
     createElement = document.createElement.bind(document),
+    isTypeof = liya.utils.isTypeof,
     setUpHTMLFixture = function(){
         var $container = createElement('div'),
             $body = $('body');
@@ -89,13 +90,6 @@ describe('liya.css on real DOM', function(){
 
 
     });
-    afterEach(function(){
-        /*
-        teardownHTMLFixture();
-        var $element = $('#test-fixture-style');
-        $element.parentNode.removeChild($element);
-        */
-    });
 
     it('liya.css read', function() {
         expect('999px').toBe($testInlineStyle.css('height'));
@@ -178,8 +172,9 @@ describe('liya.css on real DOM', function(){
         var $element = createElement('div');
         $element.id = 'test-write-as-object';
         $('#fixtureContainer').appendChild($element);
+        var $testWriteAsObject = $('#test-write-as-object');
 
-        expect($element).toBe($element.css({
+        expect($testWriteAsObject).toBe($testWriteAsObject.css({
             'width' : '200px',
             'height' : '300px',
             'background-color' : 'blue',
@@ -187,15 +182,63 @@ describe('liya.css on real DOM', function(){
             'border' : '1px solid red',
             'list-style-type' : 'square'
         }));
-        expect('200px').toBe($element.css('width'));
-        expect('300px').toBe($element.css('height'));
+        expect('200px').toBe($testWriteAsObject.css('width'));
+        expect('300px').toBe($testWriteAsObject.css('height'));
         // > probleme im firefox desktop&mobile
-        //expect('blue').toBe($element.css('background-color'));
-        expect('1px solid red').toBe($element.css('border'));
+        //expect('blue').toBe($testWriteAsObject.css('background-color'));
+        expect('1px solid red').toBe($testWriteAsObject.css('border'));
         // > probleme im firefox desktop&mobile
         //expect('square').toBe($element.css('list-style-type'));
 
     });
+
+    it('liya.css write_as_object_with_callback', function() {
+
+        var $element = createElement('div');
+        $element.id = 'test-write-as-object-with-callback';
+        $('#fixtureContainer').appendChild($element);
+
+        expect($element).toBe($element.css({
+            'width' : '200px',
+            'height' : '300px',
+            'color' : 'blue',
+            'border' : '1px solid red'
+        }, function(){
+            // > console.log('foo');
+        }));
+        expect('200px').toBe($element.css('width'));
+        expect('300px').toBe($element.css('height'));
+        expect('blue').toBe($element.css('color'));
+        expect('1px solid red').toBe($element.css('border'));
+
+    });
+
+});
+
+describe('liya.each on DOM/Array', function(){
+
+    var aRes, $res, innerHtml = '',
+        $container = createElement('div'),
+        $body = $('body');
+
+    $container.id = 'fixtureContainerEach';
+    $body.appendChild($container);
+
+    for(var i= 0; i < 100; i++){
+        innerHtml += '<div class="foo-for-each">this is('+i+')</div>'
+    }
+    $('#fixtureContainerEach').html(innerHtml);
+
+    aRes = [1,2,3,4,5,6].each(function(k, v){
+        //console.log(this.toString());
+    });
+
+    $res = $$('#fixtureContainerEach *').each(function($this, k, v){
+        //console.log('x', this);
+    });
+
+    console.log(isTypeof('array', aRes));
+    console.log(isTypeof('nodelist', $res));
 
 
 });

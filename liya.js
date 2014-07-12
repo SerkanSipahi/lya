@@ -49,31 +49,58 @@
         }
     };
 
+    var isTypeof = liya.utils.isTypeof;
+
     // > global error handling
     window.onerror = function errorHandler(message, url, line){
         console.log('onerror', arguments);
     };
-    // > for loop
-    Window.prototype.for = function(callback){
 
-        if (this === void 0 || this === null) { throw new TypeError(); }
-        var t = Object(this),
-            len = t.length >>> 0;
+    liya.each = function(object, callback, $context){
+
+        // > TODO: $conetxt = context dom object
+
+        if (object === void 0 || object === null) { throw new TypeError(); }
+
+        var t = Object(object),
+            len = t.length >>> 0,
+            container = [],
+            tmpContainer = null,
+            tmpElement = document.createElement('div');
 
         if (typeof callback !== 'function') { throw new TypeError(); }
         for (var i = 0; i < len; i++){
             if (i in t){
+
+                // > TODO: - wenn t[i]=number dann in parseInt(t[i].toString(), 10)
+                // >       - bei float(/\./.test(t[i].toString()))=parseFloat
+                // >       - bei string einfach t[i].toString()
+
                 callback.call(t[i], i, t[i]);
+                if(isTypeof('array', t)){
+                    container.push(t[i]);
+                } else if(isTypeof('nodelist', t) || isTypeof('htmlcollection', t)){
+                    tmpElement.appendChild(t[i]);
+                }
             }
         }
+
+        if(!container.length){
+            tmpContainer = tmpElement.querySelectorAll('*'); tmpElement = null;
+        } else {
+            tmpContainer = container;
+        }
+
+        return tmpContainer;
     };
 
-    // > each loop
     Array.prototype.each =
     NodeList.prototype.each =
     HTMLCollection.prototype.each = function(callback){
-        Window.prototype.for.call(this, callback);
+        return liya.each(this, callback);
     };
+    /*
+    // >  FIXME: Funkioniert nicht !!
     Object.defineProperty(Object.prototype, 'each', {
         value: function(callback) {
 	    var isTypeof = liya.utils.isTypeof;
@@ -85,6 +112,7 @@
             }
         }
     });
+    */
     Array.prototype.get =
     NodeList.prototype.get =
     HTMLCollection.prototype.get = function(index){
@@ -112,9 +140,7 @@
         this.camelCase = utils.toCamelCaseByRegex;
         this.isTypeof = utils.isTypeof;
 
-        liya.css = function(){
-            return instance;
-        };
+        liya.css = function(){ return instance; };
 
     };
     liya.css.prototype = {
@@ -218,10 +244,7 @@
     Array.prototype.css =
     NodeList.prototype.css =
     HTMLCollection.prototype.css = function(){
-        for(var i=0,length=this.length;i<length;i++){
-            this[i].css.apply(this[i], arguments);
-        }
-        //FIXME: collect this object in array and return it!
+        return this.each(function(){ this.css.apply(this, arguments); });
     };
 
     HTMLElement.prototype.remove = function(){
@@ -233,6 +256,9 @@
     };
     HTMLElement.prototype.find = function(selector){
         return this.querySelectorAll(selector);
+    };
+    HTMLElement.prototype.html = function(html){
+        this.innerHTML = html;
     };
 
 }());
