@@ -2,7 +2,7 @@
 
     'use strict';
 
-    window.liya = {
+    var liya = {
         utils : {
             // > http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#5624139
             rgbToHex : function(r, g, b) {
@@ -67,8 +67,7 @@
                 // > TODO: - wenn t[i]=number dann in parseInt(t[i].toString(), 10)
                 // >       - bei float(/\./.test(t[i].toString()))=parseFloat
                 // >       - bei string einfach t[i].toString()
-                callback.call(t[i], i, t[i]);
-                container.push(t[i]);
+                callback.call(t[i], i, t[i]); container.push(t[i]);
             }
         }
         return container;
@@ -223,7 +222,7 @@
     Array.prototype.css =
     NodeList.prototype.css =
     HTMLCollection.prototype.css = function(){
-        return this.each(function(key, domnode){
+        return this.each(function(_, domnode){
             domnode.css.apply(domnode, this.args);
         }.bind({ args:arguments }));
     };
@@ -232,7 +231,7 @@
     };
     NodeList.prototype.remove =
     HTMLCollection.prototype.remove = function(){
-        this.each(function(key, domnode){ domnode.remove(); });
+        this.each(function(_, domnode){ domnode.remove(); });
     };
     HTMLElement.prototype.find = function(selector){
         return this.querySelectorAll(selector);
@@ -240,5 +239,15 @@
     HTMLElement.prototype.html = function(html){
         this.innerHTML = html;
     };
+
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> //
+
+    if(typeof define === 'function' && define.amd) {
+        define(function(require) { return liya; });
+    } else if(typeof module === 'object' && module.exports){
+        module.exports = liya;
+    } else {
+        window.liya = liya;
+    }
 
 }());

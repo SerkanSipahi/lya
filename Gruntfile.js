@@ -8,12 +8,8 @@ module.exports = function(grunt) {
         'tests/*.js',
         '<%= pkg.name %>.js'
     ],
-    files_tests = [
-        'tests/*'
-    ],
-    files_html = [
-        'index.html'
-    ];
+    files_tests = ['tests/*'],
+    files_html  = ['index.html'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
