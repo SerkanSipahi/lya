@@ -2,60 +2,55 @@
 
     'use strict';
 
-    var liya = {};
+    var liya = {utils:{}};
 
-    liya = {
-        utils : {
-            // > http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#5624139
-            rgbToHex : function(r, g, b) {
-                var match = null;
-                // > if we pass like this: 'rgb(255, 255, 255)'
-                if(typeof(r)==='string' && (match = /rgb\((\d+), (\d+), (\d+)\)/ig.exec(r))){
-                    r=~~match[1], g=~~match[2], b=~~match[3];
-                }
-                return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-            },
-            isTypeof : function(type, object){
-                return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
-            },
-            camelCase : function(expression, value){
-
-                var matches  = null,
-                    matchAll = liya.utils.matchAll,
-                    isTypeof = liya.utils.isTypeof;
-
-                if(isTypeof('object', value)){
-                    return liya.utils.camelCaseObject(expression, value);
-                }
-
-                if((matches = matchAll(new RegExp(expression, 'g'), value))){
-                    for(var i=0,length=matches.length;i<length;i++){
-                        value = value.replace(matches[i][0], matches[i][1].toUpperCase());
-                    }
-                }
-                return value;
-            },
-            camelCaseObject : function(expression, object){
-
-                var tmpCssObject={}, camelCase = liya.utils.camelCase;
-                for(var attr in object) {
-                    if(!object.hasOwnProperty(attr)){ continue; }
-                    tmpCssObject[camelCase(expression, attr)] = object[attr];
-                }
-                return tmpCssObject;
-            },
-            matchAll : function(pattern, data, slice_start, slice_end){
-
-                var matches = [], match;
-                while ((match = pattern.exec(data))) {
-                    matches.push(match);
-                }
-                return matches;
+    liya.utils = function(){
+        var instance = this; liya.utils = function(){ return instance; };
+    };
+    liya.utils.prototype = {
+        rgbToHex : function(r, g, b) {
+            var match = null;
+            if(typeof(r)==='string' && (match = /rgb\((\d+), (\d+), (\d+)\)/ig.exec(r))){
+                r=~~match[1], g=~~match[2], b=~~match[3];
             }
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        },
+        isTypeof : function(type, object){
+            return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
+        },
+        camelCase : function(expression, value){
+
+            var matches  = null;
+
+            if(this.isTypeof('object', value)){
+                return this.camelCaseObject(expression, value);
+            }
+
+            if((matches = this.matchAll(new RegExp(expression, 'g'), value))){
+                for(var i=0,length=matches.length;i<length;i++){
+                    value = value.replace(matches[i][0], matches[i][1].toUpperCase());
+                }
+            }
+            return value;
+        },
+        camelCaseObject : function(expression, object){
+
+            var tmpCssObject={};
+            for(var attr in object) {
+                if(!object.hasOwnProperty(attr)){ continue; }
+                tmpCssObject[this.camelCase(expression, attr)] = object[attr];
+            }
+            return tmpCssObject;
+        },
+        matchAll : function(pattern, data, slice_start, slice_end){
+
+            var matches = [], match;
+            while ((match = pattern.exec(data))) {
+                matches.push(match);
+            }
+            return matches;
         }
     };
-
-    var isTypeof = liya.utils.isTypeof;
 
     liya.each = function(object, callback, $context){
 
@@ -84,20 +79,7 @@
     HTMLCollection.prototype.each = function(callback){
         return liya.each(this, callback);
     };
-    /*
-    // >  FIXME: Funkioniert nicht !!
-    Object.defineProperty(Object.prototype, 'each', {
-        value: function(callback) {
-	    var isTypeof = liya.utils.isTypeof;
-            if(isTypeof('object', this) && isTypeof('function', callback)) {
-                for(var item in this){
-                    if(!this.hasOwnProperty(item)) { continue; }
-                    callback.call(this, item, this[item]);
-                }
-            }
-        }
-    });
-    */
+
     Array.prototype.get =
     NodeList.prototype.get =
     HTMLCollection.prototype.get = function(index){
@@ -122,8 +104,8 @@
 
         this.styleRegexExpression = '-([a-z])';
         this.rgbToHex = utils.rgbToHex;
-        this.camelCase = utils.camelCase;
         this.isTypeof = utils.isTypeof;
+        this.camelCase = utils.camelCase.bind(utils);
 
         liya.css = function(){ return instance; };
 
@@ -223,7 +205,7 @@
     };
 
     HTMLElement.prototype.css = function(){
-        return (new liya.css(liya.utils)).initialize(this, arguments);
+        return (new liya.css(new liya.utils())).initialize(this, arguments);
     };
     Array.prototype.css =
     NodeList.prototype.css =

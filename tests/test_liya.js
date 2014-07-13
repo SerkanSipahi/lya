@@ -18,7 +18,7 @@ var $ = document.querySelector.bind(document),
 describe('Testing bcUtils', function() {
 
     var exp = '-([a-z])',
-        utils = liya.utils;
+        utils = new liya.utils();
 
     it('toCamelCaseByRegex', function() {
         expect('color').toBe(utils.camelCase(exp, 'color'));
@@ -41,7 +41,7 @@ describe('Testing bcUtils', function() {
 
 describe('liya.css', function(){
 
-    var css = new liya.css(liya.utils);
+    var css = new liya.css(new liya.utils());
 
     it('liya.cssHelperMethods.is', function() {
         // > read
