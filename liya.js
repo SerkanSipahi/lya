@@ -1,11 +1,13 @@
-(function(window, document){
+(function(win, doc){
 
     'use strict';
 
-    window.LIYA = {
-        NATIVE_DOM_USEAGE : true,
-        AMD_COMMONJS_SUPPORT : false
-    };
+    if(!win.LIYA){
+        win.LIYA = {
+            NATIVE_DOM_USEAGE : true,
+            AMD_COMMONJS_SUPPORT : false
+        };
+    }
 
     var liya = {utils:{}};
 
@@ -131,7 +133,7 @@
 
             var result, self = this;
 
-            result = $this.style[self.camelCase(self.styleRegexExpression, arg)] || window.getComputedStyle($this).getPropertyValue(arg);
+            result = $this.style[self.camelCase(self.styleRegexExpression, arg)] || win.getComputedStyle($this).getPropertyValue(arg);
             return /rgb\((\d+), (\d+), (\d+)\)/ig.test(result) ? self.rgbToHex(result) : result;
         },
         writeCssObject : function($this, cssObject){
@@ -266,7 +268,7 @@
             module.exports = liya;
         }
     } else {
-        window.liya = liya;
+        win.liya = liya;
     }
 
 }(this, document));
