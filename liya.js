@@ -1,8 +1,9 @@
-(function(){
+(function(window, document){
 
     'use strict';
 
-    var liya = {utils:{}};
+    var liya = {utils:{}},
+        NATIVE_DOME_USEAGE = true;
 
     liya.utils = function(){
         var instance = this; liya.utils = function(){ return instance; };
@@ -72,18 +73,6 @@
             }
         }
         return container;
-    };
-
-    Array.prototype.each =
-    NodeList.prototype.each =
-    HTMLCollection.prototype.each = function(callback){
-        return liya.each(this, callback);
-    };
-
-    Array.prototype.get =
-    NodeList.prototype.get =
-    HTMLCollection.prototype.get = function(index){
-        return this[index];
     };
 
     liya.css = function(utils){
@@ -204,31 +193,67 @@
         }
     };
 
-    HTMLElement.prototype.css = function(){
-        return (new liya.css(new liya.utils())).initialize(this, arguments);
-    };
-    Array.prototype.css =
-    NodeList.prototype.css =
-    HTMLCollection.prototype.css = function(){
-        return this.each(function(_, domnode){
-            domnode.css.apply(domnode, this.args);
-        }.bind({ args:arguments }));
-    };
-    HTMLElement.prototype.remove = function(){
-        this.parentNode.removeChild(this);
-    };
-    NodeList.prototype.remove =
-    HTMLCollection.prototype.remove = function(){
-        this.each(function(_, domnode){ domnode.remove(); });
-    };
-    HTMLElement.prototype.find = function(selector){
-        return this.querySelectorAll(selector);
-    };
-    HTMLElement.prototype.html = function(html){
-        this.innerHTML = html;
-    };
+    if(NATIVE_DOME_USEAGE){
 
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> //
+        // >>>>>>>>>>>>>>>>>> each >>>>>>>>>>>>>>>>>>>> //
+
+        Array.prototype.each =
+        NodeList.prototype.each =
+        HTMLCollection.prototype.each = function(callback){
+            return liya.each(this, callback);
+        };
+
+        // >>>>>>>>>>>>>>>>>>> get >>>>>>>>>>>>>>>>>>>> //
+
+        Array.prototype.get =
+        NodeList.prototype.get =
+        HTMLCollection.prototype.get = function(index){
+            return this[index];
+        };
+
+        // >>>>>>>>>>>>>>>>>>> css >>>>>>>>>>>>>>>>>>>> //
+
+        HTMLElement.prototype.css = function(){
+            return (new liya.css(new liya.utils())).initialize(this, arguments);
+        };
+        Array.prototype.css =
+        NodeList.prototype.css =
+        HTMLCollection.prototype.css = function(){
+            return this.each(function(_, domnode){
+                domnode.css.apply(domnode, this.args);
+            }.bind({ args:arguments }));
+        };
+
+        // >>>>>>>>>>>>>>>>>>> remove >>>>>>>>>>>>>>>>>> //
+
+        HTMLElement.prototype.remove = function(){
+            this.parentNode.removeChild(this);
+        };
+        NodeList.prototype.remove =
+        HTMLCollection.prototype.remove = function(){
+            this.each(function(_, domnode){ domnode.remove(); });
+        };
+
+        // >>>>>>>>>>>>>>>>>>> find >>>>>>>>>>>>>>>>>>>> //
+
+        HTMLElement.prototype.find = function(selector){
+            return this.querySelectorAll(selector);
+        };
+
+        // >>>>>>>>>>>>>>>>>>>> html >>>>>>>>>>>>>>>>>>>> //
+
+        HTMLElement.prototype.html = function(html){
+            this.innerHTML = html;
+        };
+
+        // >>>>>>>>>>>>>>>>>>>> Text >>>>>>>>>>>>>>>>>>>> //
+
+        HTMLElement.prototype.text = function(text){
+            this.innerText = text;
+        };
+    }
+
+    // >>>>>>>>>>>> AMD/Commonjs Support >>>>>>>>>>>>> //
 
     if(typeof define === 'function' && define.amd) {
         define(function(require) { return liya; });
@@ -238,4 +263,4 @@
         window.liya = liya;
     }
 
-}());
+}(this, document));
