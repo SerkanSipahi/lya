@@ -2,10 +2,12 @@
 
     'use strict';
 
-    var liya = {utils:{}},
+    window.LIYA = {
+        NATIVE_DOM_USEAGE : true,
+        AMD_COMMONJS_SUPPORT : false
+    };
 
-        NATIVE_DOM_USEAGE    = true,
-        AMD_COMMONJS_SUPPORT = false;
+    var liya = {utils:{}};
 
     liya.utils = function(){
         var instance = this; liya.utils = function(){ return instance; };
@@ -195,7 +197,7 @@
         }
     };
 
-    if(NATIVE_DOM_USEAGE){
+    if(LIYA.NATIVE_DOM_USEAGE){
 
         // >>>>>>>>>>>>>>>>>> each >>>>>>>>>>>>>>>>>>>> //
 
@@ -257,7 +259,7 @@
 
     // >>>>>>>>>>>> AMD/Commonjs Support >>>>>>>>>>>>> //
 
-    if(AMD_COMMONJS_SUPPORT){
+    if(LIYA.AMD_COMMONJS_SUPPORT){
         if(typeof define === 'function' && define.amd) {
             define(function(require) { return liya; });
         } else if(typeof module === 'object' && module.exports){
