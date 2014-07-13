@@ -3,7 +3,9 @@
     'use strict';
 
     var liya = {utils:{}},
-        NATIVE_DOM_USEAGE = true;
+
+        NATIVE_DOM_USEAGE    = true,
+        AMD_COMMONJS_SUPPORT = false;
 
     liya.utils = function(){
         var instance = this; liya.utils = function(){ return instance; };
@@ -255,10 +257,12 @@
 
     // >>>>>>>>>>>> AMD/Commonjs Support >>>>>>>>>>>>> //
 
-    if(typeof define === 'function' && define.amd) {
-        define(function(require) { return liya; });
-    } else if(typeof module === 'object' && module.exports){
-        module.exports = liya;
+    if(AMD_COMMONJS_SUPPORT){
+        if(typeof define === 'function' && define.amd) {
+            define(function(require) { return liya; });
+        } else if(typeof module === 'object' && module.exports){
+            module.exports = liya;
+        }
     } else {
         window.liya = liya;
     }
