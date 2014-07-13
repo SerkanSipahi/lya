@@ -2,7 +2,9 @@
 
     'use strict';
 
-    var liya = {
+    var liya = {};
+
+    liya = {
         utils : {
             // > http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#5624139
             rgbToHex : function(r, g, b) {
@@ -16,11 +18,15 @@
             isTypeof : function(type, object){
                 return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
             },
-            //FIXME: ändern in camalBase, expression kann optinal übergeben werden
-            //FIXME: auch ein object als value kann übergeben werden
-            toCamelCaseByRegex : function(expression, value){
+            camelCase : function(expression, value){
 
-                var matches, matchAll = liya.utils.matchAll;
+                var matches  = null,
+                    matchAll = liya.utils.matchAll,
+                    isTypeof = liya.utils.isTypeof;
+
+                if(isTypeof('object', value)){
+                    return liya.utils.camelCaseObject(expression, value);
+                }
 
                 if((matches = matchAll(new RegExp(expression, 'g'), value))){
                     for(var i=0,length=matches.length;i<length;i++){
@@ -29,9 +35,9 @@
                 }
                 return value;
             },
-            objectCollectionToCamelCase : function(expression, object){
+            camelCaseObject : function(expression, object){
 
-                var tmpCssObject={}, camelCase = liya.utils.toCamelCaseByRegex;
+                var tmpCssObject={}, camelCase = liya.utils.camelCase;
                 for(var attr in object) {
                     if(!object.hasOwnProperty(attr)){ continue; }
                     tmpCssObject[camelCase(expression, attr)] = object[attr];
@@ -116,7 +122,7 @@
 
         this.styleRegexExpression = '-([a-z])';
         this.rgbToHex = utils.rgbToHex;
-        this.camelCase = utils.toCamelCaseByRegex;
+        this.camelCase = utils.camelCase;
         this.isTypeof = utils.isTypeof;
 
         liya.css = function(){ return instance; };

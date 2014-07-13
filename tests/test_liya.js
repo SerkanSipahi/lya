@@ -21,13 +21,13 @@ describe('Testing bcUtils', function() {
         utils = liya.utils;
 
     it('toCamelCaseByRegex', function() {
-        expect('color').toBe(utils.toCamelCaseByRegex(exp, 'color'));
-        expect('backgroundColor').toBe(utils.toCamelCaseByRegex(exp, 'background-color'));
-        expect('borderLeftWidth').toBe(utils.toCamelCaseByRegex(exp, 'border-left-width'));
+        expect('color').toBe(utils.camelCase(exp, 'color'));
+        expect('backgroundColor').toBe(utils.camelCase(exp, 'background-color'));
+        expect('borderLeftWidth').toBe(utils.camelCase(exp, 'border-left-width'));
     });
 
-    it('objectCollectionToCamelCase', function() {
-        var objectCollection = Object.keys(utils.objectCollectionToCamelCase(exp, {
+    it('camelCaseObject', function() {
+        var objectCollection = Object.keys(utils.camelCase(exp, {
             'color' : 'blue',
             'background-color' : 'red',
             'border-left-width' : '1px'
