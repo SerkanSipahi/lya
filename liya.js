@@ -3,7 +3,7 @@
     'use strict';
 
     var liya = {utils:{}},
-        NATIVE_DOME_USEAGE = true;
+        NATIVE_DOM_USEAGE = true;
 
     liya.utils = function(){
         var instance = this; liya.utils = function(){ return instance; };
@@ -193,7 +193,7 @@
         }
     };
 
-    if(NATIVE_DOME_USEAGE){
+    if(NATIVE_DOM_USEAGE){
 
         // >>>>>>>>>>>>>>>>>> each >>>>>>>>>>>>>>>>>>>> //
 
