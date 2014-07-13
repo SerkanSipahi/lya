@@ -9,7 +9,8 @@
         };
     }
 
-    var liya = {utils:{}};
+    var liya = {utils:{}},
+        toString = {}.toString;
 
     liya.utils = function(){
         var instance = this; liya.utils = function(){ return instance; };
@@ -23,7 +24,7 @@
             return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         },
         isTypeof : function(type, object){
-            return {}.toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
+            return toString.call(object).toLowerCase() === '[object '+type+']'.toLowerCase();
         },
         camelCase : function(expression, value){
 
@@ -214,6 +215,7 @@
         Array.prototype.get =
         NodeList.prototype.get =
         HTMLCollection.prototype.get = function(index){
+            // > return liya.get(this, index);
             return this[index];
         };
 
@@ -225,6 +227,9 @@
         Array.prototype.css =
         NodeList.prototype.css =
         HTMLCollection.prototype.css = function(){
+
+            // > replace below; return liya.each(this, callback);
+
             return this.each(function(_, domnode){
                 domnode.css.apply(domnode, this.args);
             }.bind({ args:arguments }));
@@ -233,29 +238,41 @@
         // >>>>>>>>>>>>>>>>>>> remove >>>>>>>>>>>>>>>>>> //
 
         HTMLElement.prototype.remove = function(){
+            // > liya.remove(this);
             this.parentNode.removeChild(this);
         };
         NodeList.prototype.remove =
         HTMLCollection.prototype.remove = function(){
+
+            // > replace below; return liya.each(this, callback);d
+
             this.each(function(_, domnode){ domnode.remove(); });
         };
 
         // >>>>>>>>>>>>>>>>>>> find >>>>>>>>>>>>>>>>>>>> //
 
         HTMLElement.prototype.find = function(selector){
+            // > liya.find(this, selector);
             return this.querySelectorAll(selector);
         };
 
         // >>>>>>>>>>>>>>>>>>>> html >>>>>>>>>>>>>>>>>>>> //
 
         HTMLElement.prototype.html = function(html){
+            // > return liya.html(this, html);
             this.innerHTML = html;
         };
 
         // >>>>>>>>>>>>>>>>>>>> Text >>>>>>>>>>>>>>>>>>>> //
 
         HTMLElement.prototype.text = function(text){
-            this.innerText = text;
+            return liya.text(this, text);
+        };
+
+        // >>>>>>>>>>>>>>>>>>>> attr >>>>>>>>>>>>>>>>>>>> //
+
+        HTMLElement.prototype.attr = function(key, value){
+            return liya.attr(this, key, value);
         };
     }
 
