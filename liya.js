@@ -2,6 +2,8 @@
 
     'use strict';
 
+    //TODO: 1.) liya.min.js
+
     if(!win.LIYA){
         win.LIYA = {
             NATIVE_DOM_USEAGE : true,
@@ -57,9 +59,20 @@
                 matches.push(match);
             }
             return matches;
+        },
+        size : function(object){
+            return this.isTypeof('object', object) ? Object.keys(object).length : object.length;
         }
     };
-
+    liya.eachObject = function(object, callback){
+        var container = [];
+        for(var item in object){
+            if(!object.hasOwnProperty(item)){ continue; }
+            callback.call(object[item], item, object[item]);
+            container.push(object[item]);
+        }
+        return container;
+    };
     liya.each = function(object, callback, $context){
 
         // > TODO: $conetxt = context dom object
@@ -200,15 +213,25 @@
         }
     };
 
+    var utils = new liya.utils();
+
     if(LIYA.NATIVE_DOM_USEAGE){
 
         // >>>>>>>>>>>>>>>>>> each >>>>>>>>>>>>>>>>>>>> //
 
-        Array.prototype.each =
-        NodeList.prototype.each =
-        HTMLCollection.prototype.each = function(callback){
-            return liya.each(this, callback);
+        Object.prototype.loop =
+        Array.prototype.loop =
+        NodeList.prototype.loop =
+        HTMLCollection.prototype.loop = function(callback){
+            var result = null, self=this;
+            if(!utils.isTypeof('object', self)){
+                result = liya.each(this, callback);
+            } else {
+                result =  liya.eachObject(self, callback);
+            }
+            return result;
         };
+
 
         // >>>>>>>>>>>>>>>>>>> get >>>>>>>>>>>>>>>>>>>> //
 
@@ -222,7 +245,7 @@
         // >>>>>>>>>>>>>>>>>>> css >>>>>>>>>>>>>>>>>>>> //
 
         HTMLElement.prototype.css = function(){
-            return (new liya.css(new liya.utils())).initialize(this, arguments);
+            return (new liya.css(utils)).initialize(this, arguments);
         };
         Array.prototype.css =
         NodeList.prototype.css =
@@ -230,7 +253,7 @@
 
             // > replace below; return liya.each(this, callback);
 
-            return this.each(function(_, domnode){
+            return this.loop(function(_, domnode){
                 domnode.css.apply(domnode, this.args);
             }.bind({ args:arguments }));
         };

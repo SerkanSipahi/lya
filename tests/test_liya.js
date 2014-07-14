@@ -230,11 +230,11 @@ describe('liya.each on DOM/Array', function(){
     }
     $('#fixtureContainerEach').html(innerHtml);
 
-    aRes = array.each(function(k, v){
+    aRes = array.loop(function(k, v){
         expect(array).toContain(array[k]);
     });
 
-    $res = $$('#fixtureContainerEach *').each(function(key, value){
+    $res = $$('#fixtureContainerEach *').loop(function(key, value){
         this.css('border', key+'px solid green');
     });
     $res.css('font-weight', 'bold');
@@ -242,6 +242,16 @@ describe('liya.each on DOM/Array', function(){
     $res = document.querySelectorAll('#fixtureContainerEach *').css({
        'list-style-type' : 'square',
         'font-family' : 'verdana'
+    });
+
+    var obj = {
+        a : 'foo',
+        1 : 'bar',
+        'foo-bar' : 'jep'
+    };
+
+    obj.loop(function(key, value){
+        console.log(this, key, value);
     });
 
     // > console.log($res);
