@@ -269,7 +269,7 @@
 
             // > replace below; return liya.each(this, callback);d
 
-            this.each(function(_, domnode){ domnode.remove(); });
+            this.loop(function(_, domnode){ domnode.remove(); });
         };
 
         // >>>>>>>>>>>>>>>>>>> find >>>>>>>>>>>>>>>>>>>> //
