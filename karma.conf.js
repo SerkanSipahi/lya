@@ -2,8 +2,8 @@ module.exports = function(config) {
 	config.set({
 		files : [
 			'liya.js',
-            'vendor/ready.js',
-            'tests/fixture.html',
+			'vendor/ready.js',
+			'tests/fixture.html',
 			'tests/test_liya.js'
 		],
 		basePath: './',
