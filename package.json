@@ -1,6 +1,6 @@
 {
   "name": "lyadom",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lyadom, a new way of dom manipulation",
   "keywords": [
     "dom",
@@ -25,7 +25,9 @@
   "devDependencies": {
     "domready": "~1.0.7"
   },
-  "licenses": [{
+  "licenses": [
+    {
       "type": "MIT"
-    }]
+    }
+  ]
 }
