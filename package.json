@@ -5,7 +5,10 @@
   "keywords": [
     "dom",
     "manipulation",
-    "helper"
+    "helper",
+    "ECMAScript 6",
+    "ES6",
+    "Fast"
   ],
   "author": {
     "name": "Serkan Sipahi",
@@ -25,9 +28,7 @@
   "devDependencies": {
     "domready": "~1.0.7"
   },
-  "licenses": [
-    {
+  "licenses": [{
       "type": "MIT"
-    }
-  ]
+    }]
 }
