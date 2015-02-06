@@ -1,45 +1,31 @@
 {
-  "name": "liya",
-  "version": "1.0.3",
-  "description": "Liyajs is a micro Dom-Manipulation helper!",
+  "name": "lyadom",
+  "version": "0.0.1",
+  "description": "Lyadom, a new way of dom manipulation",
   "keywords": [
     "dom",
     "manipulation",
     "helper"
   ],
-  "homepage": "https://github.com/SerkanSipahi/liyajs",
-  "bugs" : "https://github.com/SerkanSipahi/liyajs/issues",
   "author": {
-     "name" : "Serkan Sipahi",
-     "email": "serkan.sipahi@yahoo.de",
-     "url": "https://github.com/SerkanSipahi"
+    "name": "Serkan Sipahi",
+    "email": "serkan.sipahi@yahoo.de",
+    "url": "https://github.com/SerkanSipahi"
   },
-  "contributors" : {
-     "name" : "Serkan Sipahi",
-     "email": "serkan.sipahi@yahoo.de",
-     "url": "https://github.com/SerkanSipahi"
+  "contributors": {
+    "name": "Serkan Sipahi",
+    "email": "serkan.sipahi@yahoo.de",
+    "url": "https://github.com/SerkanSipahi"
   },
   "repository": {
-     "type" : "git",
-     "url" : "git://github.com/SerkanSipahi/liyajs.git"
+    "type": "git",
+    "url": "git://github.com/SerkanSipahi/lyadom.git"
   },
-  "main" : "liya.js",
+  "main": "lyadom.js",
   "devDependencies": {
-     "grunt": "~0.4.5",
-     "grunt-contrib-jshint": "~0.10.0",
-     "grunt-karma" : "~0.8.0",
-     "grunt-contrib-watch" : "~0.6.1",
-     "grunt-contrib-uglify" : "~0.5.0",
-     "grunt-contrib-concat" : "~0.4.0"
+    "domready": "~1.0.7"
   },
-  "peerDependencies": {
-     "grunt": "~0.4.5"
-  },
-  "licenses": [
-    {
-     "type": "MIT",
-     "url": "https://github.com/thejameskyle/bootcamp/blob/master/LICENSE.md"
-    }
-  ]
+  "licenses": [{
+      "type": "MIT"
+    }]
 }
-

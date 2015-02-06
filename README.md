@@ -1,2 +1,4 @@
-Liya  [![devDependency Status](https://david-dm.org/SerkanSipahi/liyajs/dev-status.svg)](https://david-dm.org/SerkanSipahi/liyajs#info=devDependencies)
-===============
+### Lyadom
+>Lyadom, a new way of dom manipulation. Fast, maintable, small and written in ECMAScript 6
+
+Note: we will write this Framework in ES6 from scratch

@@ -1,10 +1,9 @@
 module.exports = function(config) {
 	config.set({
 		files : [
-			'liya.js',
+			'lyadom.js',
 			'vendor/ready.js',
-			'tests/fixture.html',
-			'tests/test_liya.js'
+			'tests/test_lyadom.js'
 		],
 		basePath: './',
 		frameworks: ['jasmine'],
