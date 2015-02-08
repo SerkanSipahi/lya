@@ -11,35 +11,15 @@ import utils from 'helper/utils';
 import dom from 'helper/dom';
 
 /**
- * [utils]
- * @type {[type]}
- */
-var $rgbToHex = utils.rgbToHex,
-    $isTypeof = utils.isTypeof,
-    $camelCase = utils.camelCase,
-    $matchAll = utils.matchAll,
-    $size = utils.size;
-
-/**
- * [utils]
- * @type {[type]}
- */
-var $css = dom.css,
-    $find = dom.find,
-    $each = dom.each,
-    $html = dom.html,
-    $text = dom.text;
-
-/**
  * [description]
  * @param  {String} query [description]
  * @return {[type]}       [description]
  */
-var $querySelector = dom.querySelector,
-    $lyadom = (query = '') => $querySelector; 
+var $query = dom.query,
+    $lyadom = (query = '') => $query; 
 
 if(!window.$) {
-    $ = (query = '') => $querySelector;
+    $ = (query = '') => $query;
 }
 
 /**
@@ -54,6 +34,26 @@ var $lyadomEnv => (namespace, dom, utils) {
      * @type {String}
      */
     var ns = namespace;
+
+    /**
+     * [utils]
+     * @type {[type]}
+     */
+    var $rgbToHex = utils.rgbToHex,
+        $isTypeof = utils.isTypeof,
+        $camelCase = utils.camelCase,
+        $matchAll = utils.matchAll,
+        $size = utils.size;
+
+    /**
+     * [utils]
+     * @type {[type]}
+     */
+    var $css = dom.css,
+        $find = dom.find,
+        $each = dom.each,
+        $html = dom.html,
+        $text = dom.text;
 
     /**
      * [each description]
