@@ -1,18 +1,53 @@
+
 /**
  * @author Serkan Sipahi
  * @email serkan.sipahi@yahoo.de
  * @license MIT license
+ *
+ * we need following methods, see zepto/jquery !
+ * 
  */
-
 import utils from 'helper/utils';
 import dom from 'helper/dom';
+
+/**
+ * [utils]
+ * @type {[type]}
+ */
+var $rgbToHex = utils.rgbToHex,
+    $isTypeof = utils.isTypeof,
+    $camelCase = utils.camelCase,
+    $matchAll = utils.matchAll,
+    $size = utils.size;
+
+/**
+ * [utils]
+ * @type {[type]}
+ */
+var $css = dom.css,
+    $find = dom.find,
+    $each = dom.each,
+    $html = dom.html,
+    $text = dom.text;
+
+/**
+ * [description]
+ * @param  {String} query [description]
+ * @return {[type]}       [description]
+ */
+var $querySelector = dom.querySelector,
+    $lyadom = (query = '') => $querySelector; 
+
+if(!window.$) {
+    $ = (query = '') => $querySelector;
+}
 
 /**
  * [description]
  * @param  {[type]} lyadom [description]
  * @return {[type]}        [description]
  */
-var lyadom => (namespace, dom, utils) {
+var $lyadomEnv => (namespace, dom, utils) {
 
     /**
      * Namespace
@@ -160,6 +195,32 @@ var lyadom => (namespace, dom, utils) {
     HTMLCollection.prototype[`${ns}closest`] = function(){
 
     };
-}
 
-export default lyadom('$', dom, utils);
+    /**
+     * [on description]
+     * @type {[type]}
+     */
+    HTMLElement.prototype[`${ns}on`] = function(key, value){
+
+    };
+    Array.prototype[`${ns}on`] =
+    NodeList.prototype[`${ns}on`] =
+    HTMLCollection.prototype[`${ns}on`] = function(){
+
+    };
+
+    /**
+     * [off description]
+     * @type {[type]}
+     */
+    HTMLElement.prototype[`${ns}off`] = function(key, value){
+
+    };
+    Array.prototype[`${ns}off`] =
+    NodeList.prototype[`${ns}off`] =
+    HTMLCollection.prototype[`${ns}off`] = function(){
+
+    };    
+};
+
+export default $lyadomEnv('$', dom, utils);
