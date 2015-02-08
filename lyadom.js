@@ -12,13 +12,13 @@ import dom from 'helper/dom';
  * @param  {[type]} lyadom [description]
  * @return {[type]}        [description]
  */
-var lyadom => () {
+var lyadom => (namespace, dom, utils) {
 
     /**
      * Namespace
      * @type {String}
      */
-    var ns = '$';
+    var ns = namespace;
 
     /**
      * [each description]
@@ -162,4 +162,4 @@ var lyadom => () {
     };
 }
 
-export default lyadom;
+export default lyadom('$', dom, utils);
