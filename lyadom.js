@@ -46,10 +46,11 @@ var $lyadomEnv => (namespace, dom, utils) {
         $size = utils.size;
 
     /**
-     * [utils]
+     * [dom]
      * @type {[type]}
      */
-    var $css = dom.css,
+    var $query = dom.query,
+        $css = dom.css,
         $find = dom.find,
         $each = dom.each,
         $html = dom.html,
