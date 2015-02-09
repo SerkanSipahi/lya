@@ -15,11 +15,11 @@ import dom from 'helper/dom';
  * @param  {String} query [description]
  * @return {[type]}       [description]
  */
-var $query = dom.query,
-    $lyadom = (query = '') => $query; 
+window.$query  = dom.query,
+window.$lyadom = (query = '') => $query; 
 
 if(!window.$) {
-    $ = (query = '') => $query;
+    window.$ = (query = '') => $query;
 }
 
 /**
