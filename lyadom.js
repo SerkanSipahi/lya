@@ -4,7 +4,6 @@
  * @email serkan.sipahi@yahoo.de
  * @license MIT license
  *
- * we need following methods, see zepto/jquery !
  * 
  */
 import utils from 'helper/utils';
