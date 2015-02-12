@@ -6,6 +6,7 @@
  *
  * 
  */
+import utils from 'helper/utils';
 import dom from 'helper/dom';
 
 /**
@@ -13,9 +14,9 @@ import dom from 'helper/dom';
  * @param  {String} query [description]
  * @return {[type]}       [description]
  */
-window.$lyadom = (query = '') => dom.query; 
+window.$lyadom = (query = '') => dom.query.bind(dom); 
 if(!window.$) {
-    window.$ = (query = '') => dom.query;
+    window.$ = (query = '') => dom.query.bind(dom);
 }
 
 /**
@@ -35,33 +36,35 @@ var $lyadomEnv => (namespace, dom) {
      * [utils]
      * @type {[type]}
      */
-    var $rgbToHex = utils.rgbToHex,
-        $isTypeof = utils.isTypeof,
-        $camelCase = utils.camelCase,
-        $matchAll = utils.matchAll,
-        $size = utils.size;
+    var rgbToHex = utils.rgbToHex,
+        isTypeof = utils.isTypeof,
+        camelCase = utils.camelCase,
+        matchAll = utils.matchAll,
+        size = utils.size;
 
     /**
      * [dom]
      * @type {[type]}
      */
-    var $query = dom.query,
-        $css = dom.css,
-        $find = dom.find,
-        $each = dom.each,
-        $html = dom.html,
-        $text = dom.text;
+    var query = dom.query.bind(dom),
+        map = dom.map.bind(dom),
+        css = dom.css.bind(dom),
+        find = dom.find.bind(dom),
+        html = dom.html.bind(dom),
+        text = dom.text.bind(dom);
+
+
+    NodeList.prototype[`${ns}each`] =
+    HTMLCollection.prototype[`${ns}each`] = function() {
+        
+    }
 
     /**
      * [get description]
      * @type {[type]}
      */
-    HTMLElement.prototype[`${ns}get`] = function(){
-        
-    };
-    NodeList.prototype[`${ns}get`] =
-    HTMLCollection.prototype[`${ns}get`] = function(index){
-
+    HTMLElement.prototype[`${ns}get`] = function(index=0){
+        return get(this, index);  
     };
 
     /**
@@ -69,11 +72,13 @@ var $lyadomEnv => (namespace, dom) {
      * @type {[type]}
      */
     HTMLElement.prototype[`${ns}css`] = function(){
-        
+        return css(this, arguments);
     };
     NodeList.prototype[`${ns}css`] =
     HTMLCollection.prototype[`${ns}css`] = function(){
-        
+        return map((_, domnode) => {
+            return css(domnode, arguments);
+        });
     };
 
     /**
@@ -81,23 +86,27 @@ var $lyadomEnv => (namespace, dom) {
      * @type {[type]}
      */
     HTMLElement.prototype[`${ns}remove`] = function(){
-
+        return remove(this, arguments);
     };
     NodeList.prototype[`${ns}remove`] =
     HTMLCollection.prototype[`${ns}remove`] = function(){
-
+        return map((_, domnode) => {
+            return remove(domnode, arguments);
+        });
     };
 
     /**
      * [find description]
      * @type {[type]}
      */
-    HTMLElement.prototype[`${ns}find`] = function(selector = ''){
-
+    HTMLElement.prototype[`${ns}find`] = function(query = ''){
+        return find(this, arguments);
     };
     NodeList.prototype[`${ns}find`] =
-    HTMLCollection.prototype[`${ns}find`] = function(){
-
+    HTMLCollection.prototype[`${ns}find`] = function(query=''){
+        return map((_, domnode) => {
+            return find(domnode, arguments);
+        });
     };
 
     /**
