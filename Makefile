@@ -1,4 +1,6 @@
 
+DIST ?= dist
+
 default:
 	@echo ""
 	@echo "Available Targets:"
@@ -26,15 +28,21 @@ default:
 	@echo "   make npm-install"
 	@echo ""
 
-build: npm-install
+build: npm-install create-dirs
 
-clean: clean-node_modules
+clean: clean-node_modules clean-dirs
+
+clean-dirs:
+	rm -rf $(DIST)
 
 clean-node_modules:
-	@rm -rf node_modules
+	rm -rf node_modules
+
+create-dist:
+	[ -d $(DIST) ] ||  mkdir $(DIST)
 
 npm-install:
-	@npm install
+	npm install
 
-.PHONY: build clean clean-node_modules default npm-install
+.PHONY: build clean clean-dirs clean-node_modules create-dirs default npm-install
 MAKEFLAGS = -s
