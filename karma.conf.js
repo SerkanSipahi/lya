@@ -1,8 +1,7 @@
-module.exports = function(config) {
+export default (config) => {
 	config.set({
 		files : [
 			'lyadom.js',
-			'vendor/ready.js',
 			'tests/test_lyadom.js'
 		],
 		basePath: './',
@@ -21,5 +20,5 @@ module.exports = function(config) {
 		captureTimeout : 5000,
 		singleRun : false,
 		reportSlowerThan : 500
-	});
-};
+	});	
+}
