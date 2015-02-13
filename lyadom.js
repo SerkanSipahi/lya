@@ -26,7 +26,7 @@ var lyadomEnv => (namespace, lyadomMethods) {
      * [lyadom description]
      * @type {[type]}
      */
-    var lyadom = lyadomMethods;
+    var dom = lyadomMethods;
 
     /**
      * [get description]
@@ -34,7 +34,7 @@ var lyadomEnv => (namespace, lyadomMethods) {
      */
     NodeList.prototype[`${ns}each`] =
     HTMLCollection.prototype[`${ns}each`] = function(...args) {
-        return lyadom.each(this, ...args);
+        return dom.each(this, ...args);
     }
 
     /**
@@ -42,7 +42,7 @@ var lyadomEnv => (namespace, lyadomMethods) {
      * @type {[type]}
      */
     HTMLElement.prototype[`${ns}get`] = function(...args){
-        return lyadom.get(this, ...args);  
+        return dom.get(this, ...args);  
     };
 
     /**
@@ -50,12 +50,12 @@ var lyadomEnv => (namespace, lyadomMethods) {
      * @type {[type]}
      */
     HTMLElement.prototype[`${ns}css`] = function(...args){
-        return lyadom.css(this, ...args);
+        return dom.css(this, ...args);
     };
     NodeList.prototype[`${ns}css`] =
     HTMLCollection.prototype[`${ns}css`] = function(...args){
-        return lyadom.each(this, (_, domnode) => {
-            lyadom.css(domnode, ...args);
+        return dom.each(this, (_, domnode) => {
+            dom.css(domnode, ...args);
         });
     };
 
@@ -64,12 +64,12 @@ var lyadomEnv => (namespace, lyadomMethods) {
      * @type {[type]}
      */
     HTMLElement.prototype[`${ns}remove`] = function(...args){
-        return lyadom.remove(this, ...args);
+        return dom.remove(this, ...args);
     };
     NodeList.prototype[`${ns}remove`] =
     HTMLCollection.prototype[`${ns}remove`] = function(...args){
-        return lyadom.each((_, domnode) => {
-            lyadom.remove(domnode, ...args);
+        return dom.each((_, domnode) => {
+            dom.remove(domnode, ...args);
         });
     };
 
@@ -78,12 +78,12 @@ var lyadomEnv => (namespace, lyadomMethods) {
      * @type {[type]}
      */
     HTMLElement.prototype[`${ns}find`] = function(...args){
-        return lyadom.find(this, ...args);
+        return dom.find(this, ...args);
     };
     NodeList.prototype[`${ns}find`] =
     HTMLCollection.prototype[`${ns}find`] = function(...args){
-        return lyadom.each((_, domnode) => {
-            lyadom.find(domnode, ...args);
+        return dom.each((_, domnode) => {
+            dom.find(domnode, ...args);
         });
     };
 
