@@ -26,11 +26,19 @@
   },
   "main": "lyadom.js",
   "devDependencies": {
-    "domready": "~1.0.7"
+    "domready": "~1.0.7",
+    "jasmine": "~2.2.1",
+    "webdriverio": "~2.4.5"
   },
   "licenses": [
     {
       "type": "MIT"
     }
-  ]
+  ],
+  "dependencies": {
+    "6to5": "~3.6.2",
+    "traceur": "0.0.84",
+    "systemjs": "~0.13.2",
+    "es6-module-loader": "~0.13.1"
+  }
 }
