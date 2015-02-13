@@ -27,8 +27,10 @@
   "main": "lyadom.js",
   "devDependencies": {
     "domready": "~1.0.7",
-    "jasmine": "~2.2.1",
-    "webdriverio": "~2.4.5"
+    "webdriverio": "~2.4.5",
+    "jasmine-core": "~2.2.0",
+    "karma": "~0.12.31",
+    "karma-jasmine": "~0.3.5"
   },
   "licenses": [
     {
