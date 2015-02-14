@@ -7,7 +7,7 @@
  * 
  */
 
-import lyadomMethods from 'lib/lyadom-methods';
+import lyadomMethods from 'lib/domhelper';
 
 /**
  * Namespace

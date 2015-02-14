@@ -39,7 +39,7 @@ clean-node_modules:
 	rm -rf node_modules
 
 create-build:
-	[ -d $(BUILD) ] ||  mkdir $(BUILD)
+	[ -d $(BUILD) ] ||  mkdir $(DIST)
 
 npm-install:
 	npm install
