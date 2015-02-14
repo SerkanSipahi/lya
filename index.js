@@ -7,19 +7,13 @@
  * 
  */
 
-import lyadomMethods from 'lib/domhelper';
+import * as dom from 'lib/domhelper';
 
 /**
  * Namespace
  * @type {String}
  */
 var ns = '$';
-
-/**
- * [lyadom description]
- * @type {[type]}
- */
-var dom = lyadomMethods;
 
 /**
  * [get description]
