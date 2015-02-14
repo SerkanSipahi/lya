@@ -1,5 +1,5 @@
 
-DIST ?= dist
+BUILD ?= build
 
 default:
 	@echo ""
@@ -33,16 +33,16 @@ build: npm-install create-dirs
 clean: clean-node_modules clean-dirs
 
 clean-dirs:
-	rm -rf $(DIST)
+	rm -rf $(BUILD)
 
 clean-node_modules:
 	rm -rf node_modules
 
-create-dist:
-	[ -d $(DIST) ] ||  mkdir $(DIST)
+create-build:
+	[ -d $(BUILD) ] ||  mkdir $(BUILD)
 
 npm-install:
 	npm install
 
-.PHONY: build clean clean-dirs clean-node_modules create-dirs default npm-install
+.PHONY: build clean clean-build clean-node_modules create-build default npm-install
 MAKEFLAGS = -s
