@@ -1,5 +1,7 @@
 
-BUILD ?= build
+BUILD  ?= build
+SYSTEM ?= traceur
+MODULE ?= system
 
 default:
 	@echo ""
