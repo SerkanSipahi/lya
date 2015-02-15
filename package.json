@@ -40,7 +40,6 @@
   ],
   "dependencies": {
     "6to5": "~3.6.2",
-    "traceur": "0.0.84",
     "systemjs": "~0.13.2",
     "es6-module-loader": "~0.13.1"
   }

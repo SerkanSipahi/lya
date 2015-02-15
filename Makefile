@@ -23,7 +23,7 @@ default:
 	@echo "       - system"
 	@echo "       - umd"
 	@echo "      @default:"
-	@echo "       - module=system"
+	@echo "       - module=ignore"
 	@echo ""
 	@echo "   make clean"
 	@echo "   make clean-node_modules"
