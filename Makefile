@@ -10,7 +10,7 @@ default:
 	@echo "   make build system=<name> module=<name>"
 	@echo "      @systems:"
 	@echo "       - traceur"
-	@echo "       - 6to5"
+	@echo "       - babel"
 	@echo "       - browser"
 	@echo "       - native"
 	@echo "      @default:"
