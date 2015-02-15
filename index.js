@@ -33,6 +33,34 @@ HTMLElement.prototype[`${ns}get`] = function(...args){
 };
 
 /**
+ * [addClass description]
+ * @type {[type]}
+ */
+HTMLElement.prototype[`${ns}addClass`] = function(...args){
+    return dom.addClass(this, ...args);
+};
+NodeList.prototype[`${ns}addClass`] =
+HTMLCollection.prototype[`${ns}addClass`] = function(...args){
+    return dom.each(this, (_, domnode) => {
+        dom.addClass(domnode, ...args);
+    });
+};
+
+/**
+ * [removeClass description]
+ * @type {[type]}
+ */
+HTMLElement.prototype[`${ns}removeClass`] = function(...args){
+    return dom.removeClass(this, ...args);
+};
+NodeList.prototype[`${ns}removeClass`] =
+HTMLCollection.prototype[`${ns}removeClass`] = function(...args){
+    return dom.each(this, (_, domnode) => {
+        dom.removeClass(domnode, ...args);
+    });
+};
+
+/**
  * [css description]
  * @type {[type]}
  */
