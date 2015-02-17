@@ -7,7 +7,7 @@
  * 
  */
 
-import * as dom from './lib/domhelper';
+import * as dom from 'lib/domhelper';
 
 /**
  * Namespace
