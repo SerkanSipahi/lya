@@ -7,6 +7,7 @@
  * 
  */
 
+import errorHandler from 'lib/errorHandler';
 import * as dom from 'lib/domhelper';
 
 /**
