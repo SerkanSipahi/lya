@@ -39,8 +39,9 @@
     }
   ],
   "dependencies": {
-    "6to5": "~3.6.2",
     "systemjs": "~0.13.2",
-    "es6-module-loader": "~0.13.1"
+    "es6-module-loader": "~0.13.1",
+    "babel": "~4.3.0",
+    "traceur": "0.0.84"
   }
 }
