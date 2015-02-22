@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Test Traceur</title>
+        <script src="../build/system.js" ></script>
+        <script>
+            System.config({
+                baseURL: '../build',                
+                traceurOptions : {
+                    annotations : true,
+                    types : true,
+                    typeAssertions : true
+                }
+            });
+
+            System.import('lyadom').then(function($){
+                $.default();
+            });
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>
