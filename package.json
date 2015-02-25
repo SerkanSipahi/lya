@@ -31,7 +31,7 @@
     "jasmine-core": "~2.2.0",
     "karma": "~0.12.31",
     "karma-jasmine": "~0.3.5",
-    "systemjs-builder": "~0.8.1"
+    "systemjs-builder": "~0.9.1"
   },
   "licenses": [
     {
@@ -39,10 +39,9 @@
     }
   ],
   "dependencies": {
-    "systemjs": "~0.13.2",
-    "es6-module-loader": "~0.13.1",
-    "babel": "~4.3.0",
-    "traceur": "0.0.84",
-    "systemjs-builder": "~0.9.0"
+    "systemjs": "~0.14.1",
+    "es6-module-loader": "~0.14.0",
+    "babel": "~4.5.1",
+    "traceur": "0.0.85"
   }
 }
