@@ -10,7 +10,7 @@
 import * as dom from 'lyadom/lib/domhelper';
 
 /**
- * Namespace
+ * [ns description]
  * @type {String}
  */
 var ns = '$';
