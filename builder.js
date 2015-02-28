@@ -5,9 +5,9 @@ var args = process.argv.slice(2).map(function(value){
     Builder = require('systemjs-builder'),
     builder = new Builder({
     traceurOptions : {
-        annotations : (0 in args) || false,
+        annotations : /*(0 in args) ||*/ false,
         types : (1 in args) || false,
-        typeAssertions : (2 in args) || false
+        typeAssertions : /*(2 in args) ||*/ false
     },
     baseURL: './',
     paths : {
