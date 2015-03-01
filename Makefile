@@ -40,6 +40,9 @@ build-babel:
 build-browser:
 	@echo 'x browser x'
 
+watch: $(system)
+	watch 'make build-$^' lib --wait 2
+
 clean: clean-node_modules clean-build-dir
 
 clean-build-dir:
