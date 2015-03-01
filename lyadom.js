@@ -7,6 +7,20 @@
  * 
  */
 
+/**
+ * todo:
+ * - refactoring see below
+ *   HTMLElement.prototype[`${ns}addClass`] = function(...args){
+ *     return dom.addClass(this, ...args);
+ *   };
+ *   NodeList.prototype[`${ns}addClass`] =
+ *   HTMLCollection.prototype[`${ns}addClass`] = function(...args){
+ *      return dom.each(this, (_, domnode) => {
+ *          dom.addClass(domnode, ...args);
+ *      });
+ *   };
+ */
+
 import * as dom from 'lyadom/lib/domhelper';
 
 /**
