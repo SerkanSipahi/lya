@@ -31,7 +31,8 @@
     "jasmine-core": "~2.2.0",
     "karma": "~0.12.31",
     "karma-jasmine": "~0.3.5",
-    "systemjs-builder": "~0.9.1"
+    "systemjs-builder": "~0.9.1",
+    "watch": "~0.14.0"
   },
   "licenses": [
     {
