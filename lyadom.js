@@ -19,6 +19,7 @@
  *          dom.addClass(domnode, ...args);
  *      });
  *   };
+ *   
  */
 
 import * as dom from 'lyadom/lib/domhelper';
@@ -97,7 +98,7 @@ HTMLElement.prototype[`${ns}remove`] = function(...args){
 };
 NodeList.prototype[`${ns}remove`] =
 HTMLCollection.prototype[`${ns}remove`] = function(...args){
-    return dom.each((_, domnode) => {
+    return dom.each(this, (_, domnode) => {
         dom.remove(domnode, ...args);
     });
 };
@@ -111,8 +112,8 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 };
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
-    return dom.each((_, domnode) => {
-        dom.find(domnode, ...args);
+    return dom.map(this, (domnode, index) => {
+        return dom.find(domnode, ...args);
     });
 };
 
@@ -173,6 +174,34 @@ HTMLElement.prototype[`${ns}removeClass`] = function(key, value){
 };
 NodeList.prototype[`${ns}removeClass`] =
 HTMLCollection.prototype[`${ns}removeClass`] = function(){
+
+};
+
+/**
+ * [description]
+ * @param  {[type]} key   [description]
+ * @param  {[type]} value [description]
+ * @return {[type]}       [description]
+ */
+HTMLElement.prototype[`${ns}before`] = function(key, value){
+
+};
+NodeList.prototype[`${ns}before`] =
+HTMLCollection.prototype[`${ns}before`] = function(){
+
+};
+
+/**
+ * [description]
+ * @param  {[type]} key   [description]
+ * @param  {[type]} value [description]
+ * @return {[type]}       [description]
+ */
+HTMLElement.prototype[`${ns}after`] = function(key, value){
+
+};
+NodeList.prototype[`${ns}after`] =
+HTMLCollection.prototype[`${ns}after`] = function(){
 
 };
 

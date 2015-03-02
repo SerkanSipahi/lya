@@ -4,22 +4,49 @@
         <meta charset="UTF-8">
         <title>Test Traceur</title>
         <script src="../build/system.js" ></script>
+        <script src="../node_modules/domready/src/ready.js"></script>
         <script>
             System.config({
                 baseURL: '../build',                
-                traceurOptions : {
-                    annotations : true,
-                    types : true,
-                    typeAssertions : true
-                }
+                // traceurOptions : {
+                //     annotations : true,
+                //     types : true,
+                //     typeAssertions : true
+                // }
             });
 
             System.import('lyadom').then(function($){
-                $.default();
+                var $ = $.default;
+                domready(function() {
+
+                    $('.foo').$each(function(index){
+                        this.style.color = 'white';
+                    });
+
+                    document.querySelectorAll('.foo').$each(function(index){
+                        this.style.backgroundColor = 'gray';
+                    });
+
+                    console.log(document.querySelector('body').$find('.foo'));
+                    console.log(document.querySelectorAll('body').$find('.foo'));
+
+
+                });
+
             });
         </script>
     </head>
     <body>
-        
+        <div class="foo">1</div>
+        <div class="foo">2</div>
+        <div class="foo">3</div>
+        <div class="foo">4</div>
+        <div class="foo">5</div>
+        <div class="foo">6</div>
+        <div class="foo">7</div>
+        <div class="foo">8</div>
+        <div class="foo">9</div>
+        <div class="foo">10</div>
+        <div class="foo">11</div>
     </body>
 </html>
