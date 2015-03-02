@@ -41,7 +41,7 @@ build-browser:
 	@echo 'x browser x'
 
 watch: $(system)
-	watch 'make build-$^' lib --wait 2
+	@watch 'make build-$^' ./ --wait 1
 
 clean: clean-node_modules clean-build-dir
 
