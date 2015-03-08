@@ -7,29 +7,29 @@
         <script src="../node_modules/domready/src/ready.js"></script>
         <script>
             System.config({
-                baseURL: '../build',                
-                // traceurOptions : {
-                //     annotations : true,
-                //     types : true,
-                //     typeAssertions : true
-                // }
+                baseURL: '../build',
             });
 
             System.import('lyadom').then(function($){
                 var $ = $.default;
                 domready(function() {
 
-                    $('.foo').$each(function(index){
+                    $('.baz').$each(function(index){
                         this.style.color = 'white';
                     });
 
-                    document.querySelectorAll('.foo').$each(function(index){
+                    document.querySelectorAll('.baz').$each(function(index){
                         this.style.backgroundColor = 'gray';
                     });
 
-                    console.log(document.querySelector('body').$find('.foo'));
-                    console.log(document.querySelectorAll('body').$find('.foo'));
-
+                    // console.log(document.querySelector('body').$find('.baz'));
+                    var result = document.querySelector('body')
+                        .$find('.wrapper')
+                        .$find('.foo')
+                        .$each(function(i){
+                            this.style.backgroundColor = 'green';
+                            this.style.color = 'white';
+                        });
 
                 });
 
@@ -37,16 +37,46 @@
         </script>
     </head>
     <body>
-        <div class="foo">1</div>
-        <div class="foo">2</div>
-        <div class="foo">3</div>
-        <div class="foo">4</div>
-        <div class="foo">5</div>
-        <div class="foo">6</div>
-        <div class="foo">7</div>
-        <div class="foo">8</div>
-        <div class="foo">9</div>
-        <div class="foo">10</div>
-        <div class="foo">11</div>
+        <div class="baz">1</div>
+        <div class="baz">2</div>
+        <div class="baz">3</div>
+        <div class="baz">4</div>
+        <div class="baz">5</div>
+        <div class="baz">6</div>
+        <div class="baz">7</div>
+        <div class="baz">8</div>
+        <div class="baz">9</div>
+        <div class="baz">10</div>
+        <div class="baz">11</div>
+        <div class="main-wrapper">
+            <div class="wrapper">
+                <div class="foo a1">Hello World 1</div>
+                <div class="gokcen">
+                  <div class="foo a2">Hello World 4</div>
+                  Hallo
+                  <span>fufuu</span>
+                  türkei
+                  <div class="foo a3">dumdidum</div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="foo a4">Hello World 2</div>
+                <div class="foo a5">Hello World 3</div>
+                Blablablu
+                <div class="baz">
+                  <div class="foo a6">
+                    huhuu <div class="foo a7">
+                      
+                    </div>
+                    <div class="liya">
+                      <div class="serkan">
+                        
+                      </div>
+                    </div>
+                    <div class="serkan"> <span class="foo a8">im span</span></div>
+                  </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

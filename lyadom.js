@@ -36,6 +36,11 @@ var ns = '$';
  */
 NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
+
+    /**
+     * schauen ob virtualhock exsitiert
+     */
+
     return dom.each(this, ...args);
 }
 
@@ -112,9 +117,19 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 };
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
-    return dom.map(this, (domnode, index) => {
+    let list = dom.map(this, (domnode, index) => {
         return dom.find(domnode, ...args);
     });
+
+    /* wenn NodeList > 1 dann mergen und in eine NodeList umwandeln, ansonsten 
+     * NodeList zurückliefern
+     * 
+     * Array : [ NodeList, Nodelist ]
+     * 
+     */
+
+    return list.length > 1 ? dom.toNodeList(list) : list[0];
+
 };
 
 /**

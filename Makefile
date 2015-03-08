@@ -18,8 +18,6 @@ default:
 	@echo "       - traceur"
 	@echo "       - babel"
 	@echo "       - requirejs"
-	@echo "       - nodejs"
-	@echo "       - iojs"
 	@echo "       - browser"
 	@echo "      @default:"
 	@echo "       - system=traceur"
