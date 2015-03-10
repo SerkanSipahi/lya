@@ -117,7 +117,7 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 };
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
-    let list = dom.map(this, (domnode, index) => {
+    /*let list = */ return dom.map(this, (domnode, index) => {
         return dom.find(domnode, ...args);
     });
 
@@ -128,7 +128,7 @@ HTMLCollection.prototype[`${ns}find`] = function(...args){
      * 
      */
 
-    return list.length > 1 ? dom.toNodeList(list) : list[0];
+    // return list.length > 1 ? dom.toNodeList(list) : list[0];
 
 };
 
