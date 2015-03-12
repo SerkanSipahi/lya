@@ -27,6 +27,7 @@
                         .$find('.wrapper')
                         .$find('.foo')
                         .$each(function(i){
+                            console.log(this);
                             this.style.backgroundColor = 'green';
                             this.style.color = 'white';
                         });

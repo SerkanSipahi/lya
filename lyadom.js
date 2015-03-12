@@ -40,8 +40,34 @@ HTMLCollection.prototype[`${ns}each`] = function(...args) {
     /**
      * schauen ob virtualhock exsitiert
      */
+    
+    // > rebuild dom
+    // 
+    // hookNode.parentElement.insertBefore(DOMNode, hookNode);
+    // hookNode.parentElement.insertBefore(DOMNode, hookNode.nextSibling); after
+    // 
+    // 1=previousSibling, danach
+    // 2=nextSibling, before
+    // 3=parentNode, appendchild
+
+    // for([DOMNode, hookNode, type] of hookContainer){
+    //     let parentElement = hookNode.parentElement;
+    //     switch(type) {
+    //         case 1:
+    //             parentElement.insertBefore(DOMNode, hookNode.nextSibling);
+    //             break;
+    //         case 2:
+    //             parentElement.insertBefore(DOMNode, hookNode);
+    //             break;
+    //         case 3:
+    //             parentElement.appendChild(DOMNode);
+    //             break;
+    //     }
+    // }
 
     return dom.each(this, ...args);
+
+    //hier an dom hängen
 }
 
 /**
@@ -117,18 +143,17 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 };
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
-    /*let list = */ return dom.map(this, (domnode, index) => {
+    
+    // bei allen NodeList, HTMLCollection immer ein flag setzen
+    // damit kann sichergestellt werden was augerufen wurde
+
+    let container = dom.map(this, (domnode, index) => {
         return dom.find(domnode, ...args);
     });
 
-    /* wenn NodeList > 1 dann mergen und in eine NodeList umwandeln, ansonsten 
-     * NodeList zurückliefern
-     * 
-     * Array : [ NodeList, Nodelist ]
-     * 
-     */
+    let [ list, hookContainer ] = dom.toNodeList(container);
 
-    // return list.length > 1 ? dom.toNodeList(list) : list[0];
+    return list;
 
 };
 
