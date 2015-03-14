@@ -30,7 +30,7 @@
     "jasmine-core": "~2.2.0",
     "karma": "~0.12.31",
     "karma-jasmine": "~0.3.5",
-    "rtts_assert": "^2.0.0-alpha.12",
+    "rtts_assert": "^2.0.0-alpha.13",
     "systemjs-builder": "~0.9.1",
     "watch": "~0.14.0",
     "webdriverio": "~2.4.5"
