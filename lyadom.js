@@ -143,18 +143,15 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 };
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
-    
-    // bei allen NodeList, HTMLCollection immer ein flag setzen
-    // damit kann sichergestellt werden was augerufen wurde
 
     let container = dom.map(this, (domnode, index) => {
         return dom.find(domnode, ...args);
     });
 
     let [ list, hookContainer ] = dom.toNodeList(container);
+    list._$hookcontainer = hookContainer !== null ? hookContainer : undefined;
 
     return list;
-
 };
 
 /**
