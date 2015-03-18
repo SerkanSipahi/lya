@@ -37,33 +37,29 @@ var ns = '$';
 NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
 
-    /**
-     * schauen ob virtualhock exsitiert
-     */
-    
-    // > rebuild dom
-    // 
-    // hookNode.parentElement.insertBefore(DOMNode, hookNode);
-    // hookNode.parentElement.insertBefore(DOMNode, hookNode.nextSibling); after
-    // 
-    // 1=previousSibling, danach
-    // 2=nextSibling, before
-    // 3=parentNode, appendchild
-
-    // for([DOMNode, hookNode, type] of hookContainer){
-    //     let parentElement = hookNode.parentElement;
-    //     switch(type) {
-    //         case 1:
-    //             parentElement.insertBefore(DOMNode, hookNode.nextSibling);
-    //             break;
-    //         case 2:
-    //             parentElement.insertBefore(DOMNode, hookNode);
-    //             break;
-    //         case 3:
-    //             parentElement.appendChild(DOMNode);
-    //             break;
-    //     }
-    // }
+    if(!this._$hookcontainer.length){
+        
+        // 1=previousSibling, danach
+        // 2=nextSibling, before
+        // 3=parentNode, appendchild
+        
+        for([DOMNode, hookNode, type] of this._$hookcontainer){
+            let parentElement = hookNode.parentElement;
+            switch(type) {
+                case 1:
+                    parentElement.insertBefore(DOMNode, hookNode.nextSibling);
+                    break;
+                case 2:
+                    parentElement.insertBefore(DOMNode, hookNode);
+                    break;
+                case 3:
+                    parentElement.appendChild(DOMNode);
+                    break;
+            }
+        }
+        
+        this._$hookcontainer = undefined;
+    }
 
     return dom.each(this, ...args);
 
@@ -144,10 +140,12 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
 
+    // !?!? wenn container leer throw error !?!?
     let container = dom.map(this, (domnode, index) => {
         return dom.find(domnode, ...args);
     });
 
+    // wenn container größer 1 dann zu "toNodeList"
     let [ list, hookContainer ] = dom.toNodeList(container);
     list._$hookcontainer = hookContainer !== null ? hookContainer : undefined;
 
