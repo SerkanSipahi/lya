@@ -43,7 +43,7 @@
   "dependencies": {
     "systemjs": "~0.15.0",
     "es6-module-loader": "~0.15.0",
-    "babel": "~4.7.12",
+    "babel": "~4.7.16",
     "traceur": "0.0.87"
   }
 }
