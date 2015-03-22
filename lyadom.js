@@ -37,14 +37,15 @@ var ns = '$';
 NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
 
-    if(!this._$hookcontainer.length){
-        
-        // 1=previousSibling, danach
-        // 2=nextSibling, before
-        // 3=parentNode, appendchild
-        
-        for([DOMNode, hookNode, type] of this._$hookcontainer){
+    var list = this;
+    dom.each(list, ...args);
+
+    if(this._$hookcontainer){
+        var container = [;
+
+        for(let [DOMNode, hookNode, type] of this._$hookcontainer){
             let parentElement = hookNode.parentElement;
+            container.push(DOMNode);
             switch(type) {
                 case 1:
                     parentElement.insertBefore(DOMNode, hookNode.nextSibling);
@@ -57,11 +58,17 @@ HTMLCollection.prototype[`${ns}each`] = function(...args) {
                     break;
             }
         }
-        
-        this._$hookcontainer = undefined;
-    }
 
-    return dom.each(this, ...args);
+        // > benötigt auch einen hookcontainer
+        // [ list, hookContainer ] = dom.toNodeList([container]);
+        var docFragment = document.createDocumentFragment();
+        for(let node of container){
+            docFragment.appendChild(node);
+        }
+        list = docFragment.childNodes; 
+
+    }
+    return list;
 
     //hier an dom hängen
 }
@@ -140,14 +147,17 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
 
-    // !?!? wenn container leer throw error !?!?
-    let container = dom.map(this, (domnode, index) => {
+    var [ list, hookContainer ] = [ undefined, undefined ];
+    let container : List<HTMLElement> = dom.map(this, (domnode, index) => {
         return dom.find(domnode, ...args);
     });
 
-    // wenn container größer 1 dann zu "toNodeList"
-    let [ list, hookContainer ] = dom.toNodeList(container);
-    list._$hookcontainer = hookContainer !== null ? hookContainer : undefined;
+    if(container.length===1){
+        [ list, hookContainer ] = [ container[0], undefined];
+    } else {
+        [ list, hookContainer ] = dom.toNodeList(container);
+        list._$hookcontainer = hookContainer;
+    }
 
     return list;
 };

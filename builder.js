@@ -4,19 +4,19 @@ var args = process.argv.slice(2).map(function(value){
     }),
     Builder = require('systemjs-builder'),
     builder = new Builder({
+    baseURL: './',
+    paths : {
+        'lyadom/lib/*' : 'lib/*.js'
+    },
     traceurOptions : {
         annotations : /*(0 in args) ||*/ false,
         types : (1 in args) || false,
         typeAssertions : /*(2 in args) ||*/ false
-    },
-    baseURL: './',
-    paths : {
-        'lyadom/lib/*' : 'lib/*.js'
     }
 })
 
 builder
-  .build('lyadom', 'build/lyadom.js')
+  .build('lyadom', 'build/lyadom.js', { sourceMaps: true })
   .then(function() {
       console.log('Build complete');
   })
