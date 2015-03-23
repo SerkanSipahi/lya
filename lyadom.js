@@ -37,11 +37,11 @@ var ns = '$';
 NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
 
-    var list = this;
+    var list = this, hookContainer;
     dom.each(list, ...args);
 
     if(this._$hookcontainer){
-        var container = [;
+        var container = [];
 
         for(let [DOMNode, hookNode, type] of this._$hookcontainer){
             let parentElement = hookNode.parentElement;
@@ -58,14 +58,8 @@ HTMLCollection.prototype[`${ns}each`] = function(...args) {
                     break;
             }
         }
-
-        // > benötigt auch einen hookcontainer
-        // [ list, hookContainer ] = dom.toNodeList([container]);
-        var docFragment = document.createDocumentFragment();
-        for(let node of container){
-            docFragment.appendChild(node);
-        }
-        list = docFragment.childNodes; 
+        [ list, hookContainer ] = dom.toNodeList([container]);
+        list._$hookcontainer = hookContainer;
 
     }
     return list;
