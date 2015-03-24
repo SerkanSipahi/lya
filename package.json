@@ -33,7 +33,7 @@
     "rtts_assert": "^2.0.0-alpha.13",
     "systemjs-builder": "~0.9.1",
     "watch": "~0.14.0",
-    "webdriverio": "~2.4.5"
+    "webdriverio": "^2.5.0rc1"
   },
   "licenses": [
     {
