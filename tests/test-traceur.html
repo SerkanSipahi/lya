@@ -97,13 +97,13 @@
                 var suite = new Benchmark.Suite;
                 domready(function() {
                     suite
-                        .add('jquery', function() {
+                        .add('jquery scenario-1', function() {
                             test_jquery();
                         })
-                        .add('zepto', function() {
+                        .add('zepto  scenario-1', function() {
                             test_zepto();
                         })
-                        .add('lyadom', function() {
+                        .add('lyadom scenario-1', function() {
                             test_lyaDom($.default);
                         })
                         .on('cycle', function(event) {

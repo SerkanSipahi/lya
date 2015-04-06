@@ -22,14 +22,14 @@ var ns = '$';
 NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
 
-    var list = this, hookContainer;
+    var list = this, hookContainer, i=0;
     dom.each(this, ...args);
 
     if(this._$hookcontainer){
         var container = [];
         for(let [DOMNode, hookNode, type] of this._$hookcontainer){
             let parentElement = hookNode.parentElement;
-            DOMNode.classList.add("__lyadom__");
+            DOMNode.classList.add(`__lyadom__${i}`);
             switch(type) {
                 case 1:
                     parentElement.insertBefore(DOMNode, hookNode.nextSibling);
@@ -44,7 +44,7 @@ HTMLCollection.prototype[`${ns}each`] = function(...args) {
         }
     }
     if(list._$hookcontainer){
-        return dom.query('.__lyadom__').$removeClass('__lyadom__');
+        i++; return dom.query(`.__lyadom__${i}`);
     } else {
         return list;
     }
