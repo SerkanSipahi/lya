@@ -4,39 +4,108 @@
         <meta charset="UTF-8">
         <title>Test Traceur</title>
         <script src="../build/system.js" ></script>
+        <script src="../node_modules/lodash/index.js"></script>
+        <script src="../node_modules/platform/platform.js"></script>
+        <script src="../node_modules/benchmark/benchmark.js"></script>
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/zepto/zepto.min.js"></script>
         <script src="../node_modules/domready/src/ready.js"></script>
         <script>
+
+            function test_lyaDom($){
+                $('.baz').$each(function(index){
+                    this.style.color = 'white';
+                });
+
+                document.querySelectorAll('.baz').$each(function(index){
+                    this.style.backgroundColor = 'gray';
+                });
+
+                document.querySelector('body')
+                    .$find('.wrapper')
+                    .$find('.foo')
+                    .$each(function(i){
+                        // console.log(this);
+                        this.style.backgroundColor = 'green';
+                        this.style.color = 'white';
+                    }).$each(function(i){
+                        // console.log(i, 'lyadom');
+                    }).$each(function(){
+                        this.style.border = '1px solid blue';
+                    }).$each(function(){
+                        this.style.fontSize = '10px';
+                    });
+            }
+
+            function test_jquery(){
+                jQuery.noConflict();
+                jQuery('.baz').each(function(index){
+                    this.style.color = 'white';
+                });
+
+                jQuery('body')
+                    .find('.wrapper')
+                    .find('.foo')
+                    .each(function(i){
+                        // console.log(this);
+                        this.style.backgroundColor = 'green';
+                        this.style.color = 'white';
+                    }).each(function(i){
+                        // console.log(i, 'jquery');
+                    }).each(function(){
+                        this.style.border = '1px solid blue';
+                    }).each(function(){
+                        this.style.fontSize = '10px';
+                    });
+
+            }
+
+            function test_zepto(){
+                Zepto('.baz').each(function(index){
+                    this.style.color = 'white';
+                });
+
+                Zepto('body')
+                    .find('.wrapper')
+                    .find('.foo')
+                    .each(function(i){
+                        // console.log(this);
+                        this.style.backgroundColor = 'green';
+                        this.style.color = 'white';
+                    }).each(function(i){
+                        // console.log(i, 'jquery');
+                    }).each(function(){
+                        this.style.border = '1px solid blue';
+                    }).each(function(){
+                        this.style.fontSize = '10px';
+                    });
+            };
+
             System.config({
                 baseURL: '../build',
             });
 
             System.import('lyadom').then(function($){
                 var $ = $.default;
+                var suite = new Benchmark.Suite;
                 domready(function() {
-
-                    $('.baz').$each(function(index){
-                        this.style.color = 'white';
-                    });
-
-                    document.querySelectorAll('.baz').$each(function(index){
-                        this.style.backgroundColor = 'gray';
-                    });
-
-                    var result = document.querySelector('body')
-                        .$find('.wrapper')
-                        .$find('.foo')
-                        .$each(function(i){
-                            // console.log(this);
-                            this.style.backgroundColor = 'green';
-                            this.style.color = 'white';
-                        }).$each(function(i){
-                            console.log(i, 'x');
-                        }).$each(function(){
-                            this.style.border = '1px solid blue';
-                        }).$each(function(){
-                            this.style.fontSize = '10px';
+                    suite
+                        .add('jquery', function() {
+                            test_jquery();
                         })
-
+                        .add('zepto', function() {
+                            test_zepto();
+                        })
+                        .add('lyadom', function() {
+                            test_lyaDom($);
+                        })
+                        .on('cycle', function(event) {
+                            console.log(String(event.target));
+                        })
+                        .on('complete', function() {
+                            console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+                        })
+                        .run({ 'async': true });
                 });
 
             });
