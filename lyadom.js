@@ -21,33 +21,10 @@ var ns = '$';
  */
 NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
-
-    var list = this, hookContainer, i=0;
-    dom.each(this, ...args);
-
-    if(this._$hookcontainer){
-        var container = [];
-        for(let [DOMNode, hookNode, type] of this._$hookcontainer){
-            let parentElement = hookNode.parentElement;
-            DOMNode.classList.add(`__lyadom__${i}`);
-            switch(type) {
-                case 1:
-                    parentElement.insertBefore(DOMNode, hookNode.nextSibling);
-                    break;
-                case 2:
-                    parentElement.insertBefore(DOMNode, hookNode);
-                    break;
-                case 3:
-                    parentElement.appendChild(DOMNode);
-                    break;
-            }
-        }
-    }
-    if(list._$hookcontainer){
-        i++; return dom.query(`.__lyadom__${i}`);
-    } else {
-        return list;
-    }
+    var list : List<HTMLElement> = dom.each(this, ...args);
+    return list._$hookcontainer 
+            ? dom.rebuildFromHookContainer(list._$hookcontainer)
+            : list;
 }
 
 /**
