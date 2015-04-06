@@ -72,7 +72,7 @@
                 Zepto('.baz').each(function(index){
                     this.style.backgroundColor = 'gray';
                 });
-                
+
                 Zepto('body')
                     .find('.wrapper')
                     .find('.foo')
@@ -94,7 +94,6 @@
             });
 
             System.import('lyadom').then(function($){
-                var $ = $.default;
                 var suite = new Benchmark.Suite;
                 domready(function() {
                     suite
@@ -105,7 +104,7 @@
                             test_zepto();
                         })
                         .add('lyadom', function() {
-                            test_lyaDom($);
+                            test_lyaDom($.default);
                         })
                         .on('cycle', function(event) {
                             console.log(String(event.target));
