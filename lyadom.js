@@ -23,14 +23,13 @@ NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
 
     var list = this, hookContainer;
-    dom.each(list, ...args);
+    dom.each(this, ...args);
 
     if(this._$hookcontainer){
         var container = [];
-
         for(let [DOMNode, hookNode, type] of this._$hookcontainer){
             let parentElement = hookNode.parentElement;
-            container.push(DOMNode);
+            DOMNode.classList.add("__lyadom__");
             switch(type) {
                 case 1:
                     parentElement.insertBefore(DOMNode, hookNode.nextSibling);
@@ -43,13 +42,12 @@ HTMLCollection.prototype[`${ns}each`] = function(...args) {
                     break;
             }
         }
-        [ list, hookContainer ] = dom.toNodeList([container]);
-        list._$hookcontainer = hookContainer;
-
     }
-    return list;
-
-    //hier an dom hängen
+    if(list._$hookcontainer){
+        return dom.query('.__lyadom__').$removeClass('__lyadom__');
+    } else {
+        return list;
+    }
 }
 
 /**
@@ -127,7 +125,7 @@ NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
 
     var [ list, hookContainer ] = [ undefined, undefined ];
-    let container : List<HTMLElement> = dom.map(this, (domnode, index) => {
+    let container : List<HTMLElement> = dom.map(this, (_, domnode) => {
         return dom.find(domnode, ...args);
     });
 
@@ -186,18 +184,6 @@ HTMLElement.prototype[`${ns}addClass`] = function(key, value){
 };
 NodeList.prototype[`${ns}addClass`] =
 HTMLCollection.prototype[`${ns}addClass`] = function(){
-
-};
-
-/**
- * [removeClass description]
- * @type {[type]}
- */
-HTMLElement.prototype[`${ns}removeClass`] = function(key, value){
-
-};
-NodeList.prototype[`${ns}removeClass`] =
-HTMLCollection.prototype[`${ns}removeClass`] = function(){
 
 };
 

@@ -22,17 +22,20 @@
                         this.style.backgroundColor = 'gray';
                     });
 
-                    // console.log(document.querySelector('body').$find('.baz'));
                     var result = document.querySelector('body')
                         .$find('.wrapper')
                         .$find('.foo')
                         .$each(function(i){
-                            console.log(this);
+                            // console.log(this);
                             this.style.backgroundColor = 'green';
                             this.style.color = 'white';
                         }).$each(function(i){
                             console.log(i, 'x');
-                        });
+                        }).$each(function(){
+                            this.style.border = '1px solid blue';
+                        }).$each(function(){
+                            this.style.fontSize = '10px';
+                        })
 
                 });
 
@@ -52,6 +55,7 @@
         <div class="baz">10</div>
         <div class="baz">11</div>
         <div class="main-wrapper">
+            <div class="foo outside">outside foo</div>
             <div class="wrapper">
                 <div class="foo a1">Hello World 1</div> x 
                 <div class="gokcen">
@@ -62,6 +66,7 @@
                   <div class="foo a3">dumdidum5</div> x
                 </div>
             </div>
+            <div class="foo outside2">outside foo 2</div>
             <div class="wrapper">
                 <div class="foo a4">Hello World 6</div> x
                 <div class="foo a5">Hello World 7</div> x
