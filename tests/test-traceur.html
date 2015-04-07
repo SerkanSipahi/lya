@@ -96,24 +96,24 @@
             System.import('lyadom').then(function($){
                 var suite = new Benchmark.Suite;
                 domready(function() {
-                    suite
-                        .add('lyadom scenario-1', function() {
-                            test_lyaDom($.default);
-                        })
-                        .add('jquery scenario-1', function() {
-                            test_jquery();
-                        })
-                        .add('zepto  scenario-1', function() {
-                            test_zepto();
-                        })
-                        .on('cycle', function(event) {
-                            console.log(String(event.target));
-                        })
-                        .on('complete', function() {
-                            console.log('Fastest is ' + this.filter('fastest').pluck('name'));
-                        })
-                        .run({ 'async': true });
-                    // test_lyaDom($.default);
+                    // suite
+                    //     .add('lyadom scenario-1', function() {
+                    //         test_lyaDom($.default);
+                    //     })
+                    //     .add('jquery scenario-1', function() {
+                    //         test_jquery();
+                    //     })
+                    //     .add('zepto  scenario-1', function() {
+                    //         test_zepto();
+                    //     })
+                    //     .on('cycle', function(event) {
+                    //         console.log(String(event.target));
+                    //     })
+                    //     .on('complete', function() {
+                    //         console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+                    //     })
+                    //     .run({ 'async': true });
+                    test_lyaDom($.default);
                 });
 
             });

@@ -21,10 +21,7 @@ var ns = '$';
  */
 NodeList.prototype[`${ns}each`] =
 HTMLCollection.prototype[`${ns}each`] = function(...args) {
-    var list : List<HTMLElement> = dom.each(this, ...args);
-    return list._$hookcontainer 
-            ? dom.rebuildFromHookContainer(list._$hookcontainer)
-            : list;
+    return dom.each(this, ...args);
 }
 
 /**
