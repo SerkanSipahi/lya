@@ -97,20 +97,9 @@ HTMLElement.prototype[`${ns}find`] = function(...args){
 };
 NodeList.prototype[`${ns}find`] =
 HTMLCollection.prototype[`${ns}find`] = function(...args){
-
-    var [ list, hookContainer ] = [ undefined, undefined ];
-    let container : List<HTMLElement> = dom.map(this, (_, domnode) => {
+    return dom.map(this, (_, domnode) => {
         return dom.find(domnode, ...args);
     });
-
-    if(container.length===1){
-        [ list, hookContainer ] = [ container[0], undefined];
-    } else {
-        [ list, hookContainer ] = dom.toNodeList(container);
-        list._$hookcontainer = hookContainer;
-    }
-
-    return list;
 };
 
 /**
