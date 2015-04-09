@@ -1,4 +1,5 @@
 
+var path = require("path");
 var args = process.argv.slice(2).map(function(value){
         return !!JSON.parse(String(value).toLowerCase());
     }),
@@ -10,8 +11,10 @@ var args = process.argv.slice(2).map(function(value){
     },
     traceurOptions : {
         annotations : /*(0 in args) ||*/ false,
-        types : (1 in args) || false,
-        typeAssertions : /*(2 in args) ||*/ false
+        types : (1 in args)/* || false*/,
+        typeAssertions : /*(2 in args) ||*/ false,
+        memberVariables: true,
+        // typeAssertionModule: path.resolve('node_modules/rtts_assert/rtts_assert')
     }
 })
 
