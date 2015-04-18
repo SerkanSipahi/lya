@@ -6,16 +6,18 @@ var args = process.argv.slice(2).map(function(value){
     Builder = require('systemjs-builder'),
     builder = new Builder({
     baseURL: './',
+    map : {
+        assert : 'node_modules/rtts_assert/es6/src/rtts_assert',
+    },
     paths : {
-        'assert' : 'node_modules/rtts_assert/es6/rtts_assert.js',
-        'lyadom/lib/*' : 'lib/*.js'
+        'lyadom/lib/*' : 'lib/*.js',
     },
     traceurOptions : {
         // annotations : (0 in args) || true,
         types : true/* || false*/,
         typeAssertions : /*(2 in args) ||*/ true,
         memberVariables: true,
-        typeAssertionModule: 'node_modules/rtts_assert/es6/rtts_assert'
+        typeAssertionModule: 'node_modules/rtts_assert/es6/rtts_assert',
     }
 })
 
