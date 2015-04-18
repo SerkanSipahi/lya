@@ -7,15 +7,15 @@ var args = process.argv.slice(2).map(function(value){
     builder = new Builder({
     baseURL: './',
     paths : {
-        'assert' : 'node_modules/rtts_assert/rtts_assert',
+        'assert' : 'node_modules/rtts_assert/es6/rtts_assert.js',
         'lyadom/lib/*' : 'lib/*.js'
     },
     traceurOptions : {
-        annotations : /*(0 in args) ||*/ true,
-        types : (1 in args)/* || false*/,
+        // annotations : (0 in args) || true,
+        types : true/* || false*/,
         typeAssertions : /*(2 in args) ||*/ true,
         memberVariables: true,
-        typeAssertionModule: 'node_modules/rtts_assert/rtts_assert'
+        typeAssertionModule: 'node_modules/rtts_assert/es6/rtts_assert'
     }
 })
 
