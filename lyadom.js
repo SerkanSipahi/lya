@@ -13,7 +13,7 @@ import * as dom from 'lyadom/lib/domhelper';
  * [ns description]
  * @type {String}
  */
-var ns = '$';
+var ns = System.namespaces.lyadom;
 
 /**
  * [get description]

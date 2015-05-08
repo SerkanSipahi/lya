@@ -1,4 +1,14 @@
 
+import * as dom from 'lyadom/lib/domhelper';
+
+describe('Some Test', function() {
+    it('Some Test', function() {
+        expect(true).toBe(true);
+    });
+});
+
+/*
+
 var $ = document.querySelector.bind(document),
     $$ = document.querySelectorAll.bind(document),
     createElement = document.createElement.bind(document),
@@ -257,3 +267,4 @@ describe('liya.each on DOM/Array', function(){
     // > console.log($res);
 
 });
+*/

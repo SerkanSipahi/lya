@@ -3,13 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>Test Traceur</title>
-        <script src="../build/system.js" ></script>
+        <script src="../node_modules/traceur/bin/traceur.js"></script>
+        <script src="../node_modules/es6-module-loader/dist/es6-module-loader.js"></script>
+        <script src="../node_modules/systemjs/dist/system.js" ></script>
         <script src="../node_modules/lodash/index.js"></script>
         <script src="../node_modules/platform/platform.js"></script>
         <script src="../node_modules/benchmark/benchmark.js"></script>
         <script src="../node_modules/jquery/dist/jquery.min.js"></script>
         <script src="../node_modules/zepto/zepto.min.js"></script>
         <script src="../node_modules/domready/src/ready.js"></script>
+
+        <script src="../lyadom.config.js"></script>
         <script>
 
             function test_lyaDom($){
@@ -90,7 +94,14 @@
             };
 
             System.config({
-                baseURL: '../build',
+                baseURL: '../',
+                map: {
+                    assert: 'node_modules/rtts_assert/es6/src/rtts_assert',
+                },
+                traceurOptions : {
+                    typeAssertions: true,
+                    typeAssertionModule: 'node_modules/rtts_assert/es6/rtts_assert',
+                },
             });
 
             System.import('lyadom').then(function($){
