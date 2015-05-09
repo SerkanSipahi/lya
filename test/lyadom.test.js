@@ -1,5 +1,5 @@
 
-import * as dom from 'lyadom/lib/domhelper';
+import * as dom from '../lib/domhelper';
 
 describe('Some Test', function() {
     it('Some Test', function() {
