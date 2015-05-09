@@ -19,7 +19,7 @@ module.exports = function(config) {
         frameworks: ['systemjs', 'jasmine'],
         browsers: ['Firefox', 'Chrome', 'Safari', 'Opera', 'IE'],
         systemjs: {
-            configFile: 'lyadom.config.js',
+            configFile: 'config/system.config.js',
             files: [
                 'node_modules/rtts_assert/es6/src/rtts_assert.js',
                 'lib/*.js',
