@@ -43,17 +43,15 @@
     "rtts_assert": "2.0.0-alpha.22",
     "systemjs-builder": "0.10.6",
     "watch": "0.16.0",
-    "zepto": "0.0.4"
+    "zepto": "0.0.4",
+    "systemjs": "0.16.11",
+    "es6-module-loader": "0.16.6",
+    "babel": "5.2.17",
+    "traceur": "0.0.89",
   },
   "licenses": [
     {
       "type": "MIT"
     }
   ],
-  "dependencies": {
-    "systemjs": "0.16.11",
-    "es6-module-loader": "0.16.6",
-    "babel": "5.2.17",
-    "traceur": "0.0.89"
-  }
 }
