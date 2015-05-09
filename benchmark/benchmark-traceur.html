@@ -12,9 +12,22 @@
         <script src="../node_modules/jquery/dist/jquery.min.js"></script>
         <script src="../node_modules/zepto/zepto.min.js"></script>
         <script src="../node_modules/domready/src/ready.js"></script>
-
-        <script src="../lyadom.config.js"></script>
         <script>
+
+            System.config({
+                baseURL: '../',
+                map: {
+                    assert: 'node_modules/rtts_assert/es6/src/rtts_assert',
+                },
+                traceurOptions : {
+                    types : true,
+                    typeAssertions: true,
+                    typeAssertionModule: 'node_modules/rtts_assert/es6/rtts_assert',
+                },
+                namespaces : {
+                    lyadom : '$',
+                },
+            });
 
             function test_lyaDom($){
                 $('.baz').$each(function(index){
@@ -92,17 +105,6 @@
                         this.style.fontSize = '10px';
                     });
             };
-
-            System.config({
-                baseURL: '../',
-                map: {
-                    assert: 'node_modules/rtts_assert/es6/src/rtts_assert',
-                },
-                traceurOptions : {
-                    typeAssertions: true,
-                    typeAssertionModule: 'node_modules/rtts_assert/es6/rtts_assert',
-                },
-            });
 
             System.import('lyadom').then(function($){
                 var suite = new Benchmark.Suite;
