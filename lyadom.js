@@ -7,7 +7,7 @@
  * 
  */
 
-import * as dom from 'lyadom/lib/domhelper';
+import * as dom from './lib/domhelper';
 
 /**
  * [ns description]
