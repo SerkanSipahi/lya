@@ -47,11 +47,13 @@
     "systemjs": "0.16.11",
     "es6-module-loader": "0.16.6",
     "babel": "5.2.17",
-    "traceur": "0.0.89",
+    "traceur": "0.0.89"
   },
   "licenses": [
     {
       "type": "MIT"
     }
   ],
+  "dependencies": {
+  }
 }
