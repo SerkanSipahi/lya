@@ -1,9 +1,46 @@
 
+import htmlTree from './fixture/fixture.tree.html!text';
 import * as dom from '../lib/domhelper';
 
-describe('Some Test', function() {
-    it('Some Test', function() {
-        expect(true).toBe(true);
+describe('domhelper', () => {
+    describe('toNodeList <=> rebuildFromHookContainer', () => {
+
+        var htmlString = '';
+
+        beforeEach(() => {
+           var element = document.getElementById('test-fixture-wrapper');
+           if(element) {
+               element.parentNode.removeChild(element);
+           }
+
+           var firstChild = undefined;
+           var tmpElement = document.createElement('div');
+           var docFragment = document.createDocumentFragment();
+           tmpElement.innerHTML = htmlTree;
+           while(firstChild = tmpElement.firstChild) {
+               docFragment.appendChild(firstChild);
+           }
+           document.body.appendChild(docFragment);
+           htmlString = document.querySelector('#test-fixture-wrapper').innerHTML;
+
+        });
+
+        it('simple run', () => {
+            var NodeList = document.querySelectorAll('#test-fixture-wrapper');
+            var [ list, hookContainer ] = dom.toNodeList([ NodeList ]);
+            dom.rebuildFromHookContainer(hookContainer);
+            expect(htmlString).toBe(document.querySelector('#test-fixture-wrapper').innerHTML);
+        });
+
+        it('complex run', () => {
+            var FooNodeList = document.querySelectorAll('.foo');
+            var BazNodeList = document.querySelectorAll('.baz');
+            var WrapperNodeList = document.querySelectorAll('.wrapper');
+            var [ list, hookContainer ] = dom.toNodeList([ FooNodeList, BazNodeList, WrapperNodeList ]);
+            dom.rebuildFromHookContainer(hookContainer);
+            expect(htmlString).toBe(document.querySelector('#test-fixture-wrapper').innerHTML);
+        });
+
     });
 });
 
