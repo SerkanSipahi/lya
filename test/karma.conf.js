@@ -17,13 +17,15 @@ module.exports = function(config) {
             'karma-jasmine',
         ],
         frameworks: ['systemjs', 'jasmine'],
-        browsers: ['Firefox', 'Chrome', 'Safari', 'Opera', 'IE'],
+        browsers: ['Chrome', 'Firefox', 'Safari', 'Opera', 'IE'],
         systemjs: {
             configFile: 'config/system.config.js',
             files: [
+                'node_modules/system-text/text.js',
                 'node_modules/rtts_assert/es6/src/rtts_assert.js',
                 'lib/*.js',
                 'test/*test.js',
+                'test/fixture/fixture.tree.html',
             ],
             testFileSuffix: 'test.js'
         },
