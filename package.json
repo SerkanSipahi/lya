@@ -55,5 +55,6 @@
     }
   ],
   "dependencies": {
+    "system-text": "^0.1.0"
   }
 }
