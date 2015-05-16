@@ -25,19 +25,19 @@ describe('domhelper', () => {
 
         });
 
-        it('simple run', () => {
+        it('simple build', () => {
             var NodeList = document.querySelectorAll('#test-fixture-wrapper');
-            var [ list, hookContainer ] = dom.toNodeList([ NodeList ]);
-            dom.rebuildFromHookContainer(hookContainer);
+            var list = dom.toNodeList([ NodeList ]);
+            dom.rebuildFromHookContainer(list._$hookcontainer);
             expect(htmlString).toBe(document.querySelector('#test-fixture-wrapper').innerHTML);
         });
 
-        it('complex run', () => {
+        it('complex build', () => {
             var FooNodeList = document.querySelectorAll('.foo');
-            var BazNodeList = document.querySelectorAll('.baz');
+            var BazNodeList = document.querySelectorAll('.baz'); 
             var WrapperNodeList = document.querySelectorAll('.wrapper');
-            var [ list, hookContainer ] = dom.toNodeList([ FooNodeList, BazNodeList, WrapperNodeList ]);
-            dom.rebuildFromHookContainer(hookContainer);
+            var list = dom.toNodeList([ WrapperNodeList, BazNodeList, FooNodeList ]);
+            dom.rebuildFromHookContainer(list._$hookcontainer);
             expect(htmlString).toBe(document.querySelector('#test-fixture-wrapper').innerHTML);
         });
 
